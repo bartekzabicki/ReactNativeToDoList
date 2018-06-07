@@ -9,7 +9,7 @@ import Settings from '../Settings/Settings'
 
 class List extends React.Component {
     static navigationOptions = {
-        title: 'Home',
+        header: false,
       };
 
     render() {

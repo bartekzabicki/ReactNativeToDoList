@@ -18,12 +18,27 @@ import { createStackNavigator } from 'react-navigation';
 
 const RootStack = createStackNavigator(
   {
-    Splash: Splash,
-    Login: Login,
-    List: List,
+    Splash: {
+      screen: Splash,
+      navigationOptions: ({navigation}) => ({
+        header: null
+      }),
+    },
+    Login: {
+      screen: Login,
+      navigationOptions: ({navigation}) => ({
+        header: null
+      }),
+    },
+    List: {
+      screen: List,
+      navigationOptions: ({navigation}) => ({
+        header: null
+      }),
+    }
   },
   {
-    initialRouteName: 'Splash',
+    initialRouteName: 'Splash'
   }
 );
 
