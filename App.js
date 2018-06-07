@@ -12,7 +12,7 @@ import {
 } from "react-native";
 
 import Splash from './Splash';
-import Login from './src/components/Login/Login'
+import Login from './src/components/controllers/Login/Login'
 import { createStackNavigator } from 'react-navigation';
 
 const RootStack = createStackNavigator(
