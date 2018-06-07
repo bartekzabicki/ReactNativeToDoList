@@ -13,15 +13,32 @@ import {
 
 import Splash from './Splash';
 import Login from './src/components/controllers/Login/Login'
+import List from './src/components/controllers/List/List'
 import { createStackNavigator } from 'react-navigation';
 
 const RootStack = createStackNavigator(
   {
-    Splash: Splash,
-    Login: Login,
+    Splash: {
+      screen: Splash,
+      navigationOptions: ({navigation}) => ({
+        header: null
+      }),
+    },
+    Login: {
+      screen: Login,
+      navigationOptions: ({navigation}) => ({
+        header: null
+      }),
+    },
+    List: {
+      screen: List,
+      navigationOptions: ({navigation}) => ({
+        header: null
+      }),
+    }
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: 'Splash'
   }
 );
 

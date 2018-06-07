@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Alert
 } from "react-native";
+import { createStackNavigator } from 'react-navigation';
 
 export default class LoginForm extends React.Component {
   loginPressed() {
