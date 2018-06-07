@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   titleView: {
-    marginTop: 16
+    marginTop: 32
   },
   title: {
     color: "black",

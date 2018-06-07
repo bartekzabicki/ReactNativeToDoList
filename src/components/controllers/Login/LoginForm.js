@@ -5,7 +5,8 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  Alert
+  Alert,
+  KeyboardAvoidingView
 } from "react-native";
 import { createStackNavigator } from 'react-navigation';
 
@@ -20,16 +21,23 @@ export default class LoginForm extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView behavior="padding" style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             placeholder="Enter email"
+            returnKeyType="next"
+            onSubmitEditing={() => this.passwordInput.focus()}
+            keyboardType="email-address"
+            autoCorrect={false}
+            autoCapitalize="none"
           />
           <TextInput
             style={styles.input}
             placeholder="Enter password"
+            returnKeyType="done"
             secureTextEntry
+            ref={(input) => this.passwordInput = input}
           />
         </View>
         <View style={styles.customButtonContainer}>
@@ -46,7 +54,7 @@ export default class LoginForm extends React.Component {
             <Text style={styles.customButtonText}>Register</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }
