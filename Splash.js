@@ -2,11 +2,17 @@ import React from "react";
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Button
 } from "react-native";
-
+import TimerMixin from "react-timer-mixin";
+import { createStackNavigator } from 'react-navigation';
 export default class Splash extends React.Component {
+    
     render() {
+        setTimeout(() => {
+            this.props.navigation.navigate('Login');
+        }, 500)
         return (
             <View style={styles.wrapper}>
                 <View style={styles.titleWrapper}>

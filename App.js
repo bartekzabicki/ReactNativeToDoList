@@ -12,51 +12,25 @@ import {
 } from "react-native";
 
 import Splash from './Splash';
-import Main from './src/components/Main/Main'
+import Login from './src/components/Login/Login'
+import { createStackNavigator } from 'react-navigation';
+
+const RootStack = createStackNavigator(
+  {
+    Splash: Splash,
+    Login: Login,
+  },
+  {
+    initialRouteName: 'Splash',
+  }
+);
 
 export default class App extends React.Component {
 
-  loginPressed() {
-    Alert.alert("Kliknieto")
-  }
-
-  registerPressed() {
-
-  }
-
   render() {
-    return (
-      <Splash/>
-      // <ScrollView>
-      //   <View style={styles.container}>
-      //     <Text style={styles.description}>This is To Do App!</Text>
-      //     <View style={styles.textInputContainer}>
-      //       <TextInput 
-      //       style={styles.roundedInput}
-      //        placeholder="Enter email" />
-      //       <TextInput
-      //         style={styles.roundedInput}
-      //         placeholder="Enter password"
-      //       />
-      //       <TextInput
-      //         style={styles.roundedInput}
-      //         placeholder="Enter address"
-      //       />
-      //       <TextInput
-      //         style={styles.roundedInput}
-      //         placeholder="Enter birthday date"
-      //       />
-      //     </View>
-      //     <TouchableOpacity
-      //     style={styles.loginScreenButton}
-      //     onPress={this.loginPressed}
-      //     underlayColor='#fff'>
-      //     <Text style={styles.submitText}>Login</Text>
-      //   </TouchableOpacity>
-      //   </View>
-      // </ScrollView>
-    );
+    return <RootStack />;
   }
+
 }
 
 const styles = StyleSheet.create({
