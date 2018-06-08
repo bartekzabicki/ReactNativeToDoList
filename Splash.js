@@ -1,18 +1,16 @@
-import React from "react";
+import React, {Component} from "react";
 import {
     View,
     Text,
     StyleSheet,
-    Button
+    Button,
 } from "react-native";
-import TimerMixin from "react-timer-mixin";
-import { createStackNavigator } from 'react-navigation';
-export default class Splash extends React.Component {
-    
+
+class Splash extends Component {
     render() {
         setTimeout(() => {
             this.props.navigation.navigate('Login');
-        }, 500)
+        }, 1000)
         return (
             <View style={styles.wrapper}>
                 <View style={styles.titleWrapper}>
@@ -25,6 +23,7 @@ export default class Splash extends React.Component {
         );
     }
 }
+export default Splash;
 
 const styles = StyleSheet.create({
     wrapper: {
@@ -46,4 +45,4 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center'
     }
-})
+});

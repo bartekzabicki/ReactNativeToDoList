@@ -8,15 +8,29 @@ import {
   Alert,
   KeyboardAvoidingView
 } from "react-native";
-import { createStackNavigator } from 'react-navigation';
 
 export default class LoginForm extends React.Component {
-  loginPressed() {
-    Alert.alert("Login");
-  }
+  state = {
+    email: "",
+    password: ""
+  };
 
-  registerPressed() {
-    Alert.alert("Register");
+  _loginPressed() {
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    let passwordRegex = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/;
+    let password = this.state.password;
+    let email = this.state.email;
+    if (email.trim() == "") {
+      Alert.alert("Enter email");
+    } else if (password.trim() == "") {
+      Alert.alert("Enter password");
+    } else {
+      if (emailRegex.test(this.state.email) === false) {
+        Alert.alert("Email is Not Correct");
+      } else {
+        Alert.alert("Login!!");
+      }
+    }
   }
 
   render() {
@@ -31,25 +45,27 @@ export default class LoginForm extends React.Component {
             keyboardType="email-address"
             autoCorrect={false}
             autoCapitalize="none"
+            onChangeText={value => this.setState({ email: value })}
           />
           <TextInput
             style={styles.input}
             placeholder="Enter password"
             returnKeyType="done"
             secureTextEntry
-            ref={(input) => this.passwordInput = input}
+            ref={input => (this.passwordInput = input)}
+            onChangeText={value => this.setState({ password: value })}
           />
         </View>
         <View style={styles.customButtonContainer}>
           <TouchableOpacity
             style={styles.customButton}
-            onPress={this.loginPressed}
+            onPress={this._loginPressed.bind(this)}
           >
             <Text style={styles.customButtonText}>Login</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.customButton}
-            onPress={this.registerPressed}
+            onPress={() => this.props.navigation.navigate("Register")}
           >
             <Text style={styles.customButtonText}>Register</Text>
           </TouchableOpacity>
@@ -61,7 +77,7 @@ export default class LoginForm extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
   inputContainer: {
     flex: 1,
@@ -74,13 +90,13 @@ const styles = StyleSheet.create({
     marginTop: 16,
     paddingHorizontal: 10,
     color: "black",
-    borderColor: '#34495e',
+    borderColor: "#34495e",
     borderWidth: 0.5,
     borderRadius: 10
   },
   customButtonContainer: {
     flex: 2,
-    alignItems: 'center'
+    alignItems: "center"
   },
   customButton: {
     height: 40,
@@ -90,12 +106,12 @@ const styles = StyleSheet.create({
     marginTop: 16,
     justifyContent: "center",
     borderRadius: 10,
-    width: 200,
+    width: 200
   },
   customButtonText: {
     textAlign: "center",
     fontSize: 15,
     fontWeight: "700",
-    color: 'white'
+    color: "white"
   }
 });
