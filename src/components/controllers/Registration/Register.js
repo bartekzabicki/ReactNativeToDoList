@@ -24,7 +24,6 @@ class Register extends Component {
 
   _registerPressed() {
     let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-
     if (this.state.email.trim() == "") {
       Alert.alert("Enter email");
     } else if (this.state.password.trim() == "") {

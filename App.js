@@ -15,9 +15,8 @@ import { createStackNavigator } from 'react-navigation';
 
 import Splash from './Splash';
 import Login from './src/components/controllers/Login/Login';
-import List from './src/components/controllers/List/List';
 import Register from './src/components/controllers/Registration/Register';
-
+import DashboardTabNavigator from './src/components/controllers/Dashboard/DashboardTabNavigator';
 export default class App extends React.Component {
 
   render() {
@@ -30,19 +29,27 @@ const AppStackNavigator = new createStackNavigator({
   Splash: {
     screen: Splash,
     navigationOptions: {
-      header: null
+      header: null,
     }
   },
   Login: {
     screen: Login,
     navigationOptions: {
-      header: null
+      header: null,
+      gesturesEnabled: false
     }
   },
   Register: {
     screen: Register,
     navigationOptions: {
       title: "Registration"
+    }
+  },
+  TabNavigator: {
+    screen: DashboardTabNavigator,
+    navigationOptions: {
+      header: null,
+      gesturesEnabled: false
     }
   }
 })

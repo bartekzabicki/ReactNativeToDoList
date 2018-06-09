@@ -29,7 +29,7 @@ export default class LoginForm extends React.Component {
       if (emailRegex.test(this.state.email) === false) {
         Alert.alert("Email is Not Correct");
       } else {
-        Alert.alert("Login!!");
+        this.props.navigation.navigate("TabNavigator")
       }
     }
   }
