@@ -21,17 +21,19 @@ export default class LoginForm extends React.Component {
     let password = this.state.password;
     let email = this.state.email;
 
-    if (email.trim() == "") {
-      Alert.alert("Enter email");
-    } else if (password.trim() == "") {
-      Alert.alert("Enter password");
-    } else {
-      if (emailRegex.test(this.state.email) === false) {
-        Alert.alert("Email is Not Correct");
-      } else {
-        this.props.navigation.navigate("TabNavigator")
-      }
-    }
+    this.props.navigation.navigate("TabNavigator")
+
+    // if (email.trim() == "") {
+    //   Alert.alert("Enter email");
+    // } else if (password.trim() == "") {
+    //   Alert.alert("Enter password");
+    // } else {
+    //   if (emailRegex.test(this.state.email) === false) {
+    //     Alert.alert("Email is Not Correct");
+    //   } else {
+    //     this.props.navigation.navigate("TabNavigator")
+    //   }
+    // }
   }
 
   render() {
