@@ -5,7 +5,7 @@ import {
   createBottomTabNavigator,
   createStackNavigator
 } from "react-navigation";
-import List from "./List/List";
+import MyList from "./List/MyList";
 import Settings from "./Settings/Settings";
 import MyProfile from "./Settings/MyProfile";
 import ChangePassword from "./Settings/ChangePassword";
@@ -13,9 +13,9 @@ import ChangeEmail from "./Settings/ChangeEmail";
 
 const ListStack = new createStackNavigator({
   List: {
-    screen: List,
+    screen: MyList,
     navigationOptions: {
-      title: "List"
+      title: "MyList"
     }
   }
 });

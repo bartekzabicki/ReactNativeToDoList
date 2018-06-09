@@ -9,6 +9,12 @@ import {
 } from "react-native";
 
 class ChangePassword extends Component {
+  state = {
+    oldPassword: "",
+    newPassword: "",
+    confirmNewPassword: ""
+  };
+
   render() {
     return (
       <View style={styles.container}>
