@@ -34,7 +34,7 @@ class ChangeEmail extends Component {
             style={styles.input}
             placeholder="Enter password"
             secureTextEntry
-            returnKeyType="next"
+            returnKeyType="done"
             ref={input => (this.passwordInput = input)}
             onChangeText={value => this.setState({ password: value })}
           />
