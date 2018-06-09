@@ -39,7 +39,10 @@ class Settings extends Component {
         >
           <Text style={styles.customText}>Change password</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.customButton}>
+        <TouchableOpacity
+          style={styles.customButton}
+          onPress={() => this.props.navigation.navigate("Login")}
+        >
           <Text style={styles.customText}>Logout</Text>
         </TouchableOpacity>
       </View>

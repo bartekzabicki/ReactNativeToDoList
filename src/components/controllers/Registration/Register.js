@@ -41,11 +41,6 @@ class Register extends Component {
         Alert.alert("Login!!");
       }
     }
-    console.log("Email", this.state.email);
-    console.log("Password", this.state.password);
-    console.log("Confirm passwowrd", this.state.confirmPassword);
-    console.log("A date has been picked: ", this.state.selectedDate);
-    console.log("Is Date Picked", this.state.isDatePicked);
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
