@@ -13,18 +13,40 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 
 class Register extends Component {
-
   state = {
     email: "",
     password: "",
     confirmPassword: "",
     isDateTimePickerVisible: false,
-    selectedDate: ""
+    selectedDate: "Select birthday date",
+    isDatePicked: false
   };
 
-  _registerPressed = () => {
-    Alert.alert(this.state.email);
+  _registerPressed() {
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+
+    if (this.state.email.trim() == "") {
+      Alert.alert("Enter email");
+    } else if (this.state.password.trim() == "") {
+      Alert.alert("Enter password");
+    } else if (this.state.confirmPassword.trim() == "") {
+        Alert.alert("Confirm password");
+    } else if (this.state.isDatePicked == false) { 
+        Alert.alert("Choose birthday date");
+    } else if (this.state.password != this.state.confirmPassword) {
+        Alert.alert("Passwords are different")
+    } else {
+      if (emailRegex.test(this.state.email) === false) {
+        Alert.alert("Email is Not Correct");
+      } else {
+        Alert.alert("Login!!");
+      }
+    }
+    console.log("Email", this.state.email);
+    console.log("Password", this.state.password);
+    console.log("Confirm passwowrd", this.state.confirmPassword);
     console.log("A date has been picked: ", this.state.selectedDate);
+    console.log("Is Date Picked", this.state.isDatePicked);
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -32,7 +54,8 @@ class Register extends Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = date => {
-    this.setState({ selectedDate: moment(date).format("MMM Do YYYY") });
+    this.setState({ isDatePicked: true });
+    this.setState({ selectedDate: moment(date).format("YYYY MMMM Do") });
     this._hideDateTimePicker();
   };
 
@@ -69,20 +92,19 @@ class Register extends Component {
             onChangeText={value => this.setState({ confirmPassword: value })}
           />
           <TouchableOpacity onPress={this._showDateTimePicker}>
-            <Text>Show DatePicker</Text>
+            <Text style={styles.datePickerText}>{this.state.selectedDate}</Text>
           </TouchableOpacity>
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
-            format={"YYYY-MM-DD"}
             maximumDate={new Date()}
           />
         </View>
         <View>
           <TouchableOpacity
             style={styles.customButton}
-            onPress={this._registerPressed}
+            onPress={this._registerPressed.bind(this)}
           >
             <Text style={styles.customButtonText}>Register</Text>
           </TouchableOpacity>
@@ -142,5 +164,10 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
     color: "white"
+  },
+  datePickerText: {
+    textAlign: "center",
+    marginTop: 24,
+    fontSize: 15
   }
 });
