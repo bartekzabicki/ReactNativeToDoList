@@ -7,6 +7,9 @@ import {
 } from "react-navigation";
 import List from "./List/List";
 import Settings from "./Settings/Settings";
+import MyProfile from "./Settings/MyProfile";
+import ChangePassword from "./Settings/ChangePassword";
+import ChangeEmail from "./Settings/ChangeEmail";
 
 const ListStack = new createStackNavigator({
   List: {
@@ -22,6 +25,24 @@ const SettingsStack = new createStackNavigator({
     screen: Settings,
     navigationOptions: {
       title: "Settings"
+    }
+  },
+  MyProfile: {
+    screen: MyProfile,
+    navigationOptions: {
+      title: "MyProfile"
+    }
+  },
+  ChangePassword: {
+    screen: ChangePassword,
+    navigationOptions: {
+      title: "Change password"
+    }
+  },
+  ChangeEmail: {
+    screen: ChangeEmail,
+    navigationOptions: {
+      title: "Change email"
     }
   }
 });

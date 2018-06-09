@@ -9,7 +9,9 @@ import {
 class Splash extends Component {
     render() {
         setTimeout(() => {
-            this.props.navigation.navigate('Login');
+            // this.props.navigation.navigate('Login');
+            this.props.navigation.navigate("TabNavigator")
+
         }, 1000)
         return (
             <View style={styles.wrapper}>

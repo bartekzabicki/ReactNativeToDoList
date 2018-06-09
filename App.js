@@ -17,6 +17,7 @@ import Splash from './Splash';
 import Login from './src/components/controllers/Login/Login';
 import Register from './src/components/controllers/Registration/Register';
 import DashboardTabNavigator from './src/components/controllers/Dashboard/DashboardTabNavigator';
+
 export default class App extends React.Component {
 
   render() {
@@ -51,5 +52,5 @@ const AppStackNavigator = new createStackNavigator({
       header: null,
       gesturesEnabled: false
     }
-  }
+  },
 })
