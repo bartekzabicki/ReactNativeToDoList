@@ -20,8 +20,10 @@
   },
   "dependencies": {
     "expo": "^27.0.1",
+    "moment": "^2.22.2",
     "react": "16.3.1",
     "react-native": "~0.55.2",
+    "react-native-modal-datetime-picker": "^5.1.0",
     "react-navigation": "^2.2.3",
     "react-timer-mixin": "^0.13.3"
   }

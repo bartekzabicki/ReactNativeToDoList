@@ -20,6 +20,7 @@ export default class LoginForm extends React.Component {
     let passwordRegex = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/;
     let password = this.state.password;
     let email = this.state.email;
+
     if (email.trim() == "") {
       Alert.alert("Enter email");
     } else if (password.trim() == "") {
