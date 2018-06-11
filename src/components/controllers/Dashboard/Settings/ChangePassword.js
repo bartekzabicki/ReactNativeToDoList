@@ -15,6 +15,22 @@ class ChangePassword extends Component {
     confirmNewPassword: ""
   };
 
+  _changeEmailPressed = () => {
+    if (this.state.oldPassword.trim() == "") {
+      Alert.alert("Enter old password")
+    } else if (this.state.newPassword.trim() == "") {
+      Alert.alert("Enter new password")
+    } else if (this.state.confirmNewPassword.trim() == "") {
+      Alert.alert("Confirm new password ")
+    } else {
+      if (this.state.newPassword.trim() == this.state.confirmNewPassword.trim()) {
+        Alert.alert("Send to API")
+      } else {
+        Alert.alert("Passwords are different")
+      }
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>

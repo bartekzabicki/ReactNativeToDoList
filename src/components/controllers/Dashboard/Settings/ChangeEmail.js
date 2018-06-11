@@ -15,7 +15,18 @@ class ChangeEmail extends Component {
   };
 
   _changeEmailPressed = () => {
-    Alert.alert(this.state.email);
+    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (this.state.email.trim() == "") {
+      Alert.alert("Enter email");
+    } else if (this.state.password.trim() == "") {
+      Alert.alert("Enter password");
+    } else {
+      if (emailRegex.test(this.state.email) === false) {
+        Alert.alert("Email is Not Correct");
+      } else {
+        Alert.alert("Send to API")
+      }
+    }
   };
 
   render() {

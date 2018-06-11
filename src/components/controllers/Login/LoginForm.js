@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  AsyncStorage
 } from "react-native";
 
 export default class LoginForm extends React.Component {
@@ -20,20 +21,41 @@ export default class LoginForm extends React.Component {
     let passwordRegex = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/;
     let password = this.state.password;
     let email = this.state.email;
+    if (email.trim() == "") {
+      Alert.alert("Enter email");
+    } else if (password.trim() == "") {
+      Alert.alert("Enter password");
+    } else {
+      if (emailRegex.test(this.state.email) === false) {
+        Alert.alert("Email is Not Correct");
+      } else {
+        this._loginWithAPI();
+      }
+    }
+  }
 
-    this.props.navigation.navigate("TabNavigator")
-
-    // if (email.trim() == "") {
-    //   Alert.alert("Enter email");
-    // } else if (password.trim() == "") {
-    //   Alert.alert("Enter password");
-    // } else {
-    //   if (emailRegex.test(this.state.email) === false) {
-    //     Alert.alert("Email is Not Correct");
-    //   } else {
-    //     this.props.navigation.navigate("TabNavigator")
-    //   }
-    // }
+  async _loginWithAPI() {
+    const response = await fetch("http://213.32.87.132:3000/api/user/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password
+      })
+    }).catch(error => {
+      console.error(error);
+    });
+    const responseJSON = await response.json();
+    if (response.status === 200) {
+      AsyncStorage.setItem("token", responseJSON.token)
+      this.props.navigation.navigate("TabNavigator")
+      return
+    } else {
+      Alert.alert(responseJSON.error)
+    }
   }
 
   render() {

@@ -12,6 +12,7 @@ import ChangePassword from "./Settings/ChangePassword";
 import ChangeEmail from "./Settings/ChangeEmail";
 import NewTask from "./List/NewTask/NewTask";
 import EditTask from "./List/EditTask/EditTask";
+import MyCalendar from "./Calendar/MyCalendar";
 
 const ListStack = new createStackNavigator({
   List: {
@@ -30,6 +31,15 @@ const ListStack = new createStackNavigator({
     screen: EditTask,
     navigationOptions: {
       title: "EditTask"
+    }
+  }
+});
+
+const CalendarStack = new createStackNavigator({
+  MyCalendar: {
+    screen: MyCalendar,
+    navigationOptions: {
+      title: "My calendar"
     }
   }
 });
@@ -65,19 +75,52 @@ const DashboardTabNavigator = new createBottomTabNavigator({
   List: {
     screen: ListStack,
     navigationOptions: {
-        tabBarIcon: (focused, tintColor) => (
-            <Image source={require("../../../assets/list.png")} style={{width: 24, height: 24}} />
-
+      tabBarLabel: 'List',
+      tabBarIcon: ({ focused }) => {
+          const image = focused 
+          ? require('../../../assets/selectedList.png') 
+          : require('../../../assets/list.png')
+          return (
+              <Image 
+                  source={image}
+                  style={{width: 24, height: 24}}
+              />
           )
+      }
+    }
+  },
+  Calendar: {
+    screen: CalendarStack,
+    navigationOptions: {
+      tabBarLabel: 'Calendar',
+      tabBarIcon: ({focused}) => {
+        const image = focused
+        ? require('../../../assets/selectedCalendar.png') 
+        : require('../../../assets/calendar.png')
+        return (
+            <Image 
+                source={image}
+                style={{width: 24, height: 24}}
+            />
+        )
+      }
     }
   },
   Settings: {
       screen: SettingsStack,
       navigationOptions: {
-        tabBarIcon: (focused, tintColor) => (
-            <Image source={require("../../../assets/settings.png")} style={{width: 24, height: 24}} />
-
-          )
+        tabBarLabel: 'Settings',
+        tabBarIcon: ({ focused }) => {
+            const image = focused 
+            ? require('../../../assets/selectedSettings.png') 
+            : require('../../../assets/settings.png')
+            return (
+                <Image 
+                    source={image}
+                    style={{width: 24, height: 24}}
+                />
+            )
+        }
       }
   }
 });

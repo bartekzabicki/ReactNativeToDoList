@@ -1,7 +1,13 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, AsyncStorage } from "react-native";
 
 class Settings extends Component {
+
+  async _logoutUser() {
+    await AsyncStorage.removeItem("token")
+    this.props.navigation.navigate("Login")
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -9,10 +15,7 @@ class Settings extends Component {
         <TouchableOpacity
           style={styles.customButton}
           onPress={() =>
-            this.props.navigation
-              .dangerouslyGetParent()
-              .dangerouslyGetParent()
-              .navigate("MyProfile")
+            this.props.navigation.navigate("MyProfile")
           }
         >
           <Text style={styles.customText}>My Profile</Text>
@@ -20,10 +23,7 @@ class Settings extends Component {
         <TouchableOpacity
           style={styles.customButton}
           onPress={() =>
-            this.props.navigation
-              .dangerouslyGetParent()
-              .dangerouslyGetParent()
-              .navigate("ChangeEmail")
+            this.props.navigation.navigate("ChangeEmail")
           }
         >
           <Text style={styles.customText}>Change email</Text>
@@ -38,7 +38,7 @@ class Settings extends Component {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.customButton}
-          onPress={() => this.props.navigation.navigate("Login")}
+          onPress={this._logoutUser.bind(this)}
         >
           <Text style={styles.customText}>Logout</Text>
         </TouchableOpacity>
