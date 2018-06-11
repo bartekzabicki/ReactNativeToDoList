@@ -6,7 +6,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  AsyncStorage
 } from "react-native";
 
 export default class LoginForm extends React.Component {
@@ -49,29 +50,12 @@ export default class LoginForm extends React.Component {
     });
     const responseJSON = await response.json();
     if (response.status === 200) {
-      console.log(responseJSON);
+      AsyncStorage.setItem("token", responseJSON.token)
+      this.props.navigation.navigate("TabNavigator")
       return
+    } else {
+      Alert.alert(responseJSON.error)
     }
-    console.log("Error");
-    console.log(responseJSON);
-    // const response = await fetch("http://213.32.87.132:3000/api/user", {
-    //   method: "POST",
-    //   headers: {
-    //     Accept: "application/json",
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({ email: this.state.email, password: this.state.password, date: this.state.selectedDate})
-    // })
-    // .catch((error) => {
-    //   console.error(error);
-    // });
-    // if (response.status === 200) {
-    //   Alert.alert("Your account was created!")
-    //   this.props.navigation.dispatch(NavigationActions.back())
-    //   return
-    // }
-    // const responseJSON = await response.json()
-    // Alert.alert(responseJSON.error)
   }
 
   render() {
