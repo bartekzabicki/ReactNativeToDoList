@@ -4,22 +4,23 @@ import { List, ListItem } from "react-native-elements";
 
 import { users } from "./data";
 import ActionButton from 'react-native-action-button';
+import TaskCellComponent from "./TaskCellComponent/TaskCellComponent";
 
 class MyList extends Component {
   render() {
     return (
       <View>
       <ScrollView>
-        <List>
+        <FlatList>
           {users.map(user => (
-            <ListItem
+            <TaskCellComponent
               key={user.login.username}
               title={`${user.name.first.toUpperCase()} ${user.name.last.toUpperCase()}`}
               subtitle={user.registered}
               // onPress={() => this.onLearnMore(user)}
             />
           ))}
-        </List>
+        </FlatList>
       </ScrollView>
       <ActionButton
         buttonColor="rgba(231,76,60,1)"
