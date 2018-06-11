@@ -15,7 +15,7 @@ class ChangePassword extends Component {
     confirmNewPassword: ""
   };
 
-  _changeEmailPressed= () => {
+  _changeEmailPressed = () => {
     if (this.state.oldPassword.trim() == "") {
       Alert.alert("Enter old password")
     } else if (this.state.newPassword.trim() == "") {

@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Alert
 } from "react-native";
+import { NavigationActions } from 'react-navigation'
 
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
@@ -29,18 +30,39 @@ class Register extends Component {
     } else if (this.state.password.trim() == "") {
       Alert.alert("Enter password");
     } else if (this.state.confirmPassword.trim() == "") {
-        Alert.alert("Confirm password");
-    } else if (this.state.isDatePicked == false) { 
-        Alert.alert("Choose birthday date");
+      Alert.alert("Confirm password");
+    } else if (this.state.isDatePicked == false) {
+      Alert.alert("Choose birthday date");
     } else if (this.state.password != this.state.confirmPassword) {
-        Alert.alert("Passwords are different")
+      Alert.alert("Passwords are different");
     } else {
       if (emailRegex.test(this.state.email) === false) {
         Alert.alert("Email is Not Correct");
       } else {
-        Alert.alert("Login!!");
+        this._sendUser()
       }
     }
+  }
+
+  async _sendUser() {
+    const response = await fetch("http://213.32.87.132:3000/api/user", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ email: this.state.email, password: this.state.password, date: this.state.selectedDate})
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+    if (response.status === 200) {
+      Alert.alert("Your account was created!")
+      this.props.navigation.dispatch(NavigationActions.back())
+      return
+    }
+    const responseJSON = await response.json()
+    Alert.alert(responseJSON.error)
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -49,7 +71,7 @@ class Register extends Component {
 
   _handleDatePicked = date => {
     this.setState({ isDatePicked: true });
-    this.setState({ selectedDate: moment(date).format("YYYY MMMM Do") });
+    this.setState({ selectedDate: moment(date).format("YYYY-MM-DD") });
     this._hideDateTimePicker();
   };
 
@@ -67,6 +89,7 @@ class Register extends Component {
             returnKeyType="next"
             onSubmitEditing={() => this.passwordInput.focus()}
             onChangeText={value => this.setState({ email: value })}
+            autoCapitalize = 'none'
           />
           <TextInput
             style={styles.input}
@@ -165,3 +188,4 @@ const styles = StyleSheet.create({
     fontSize: 15
   }
 });
+
