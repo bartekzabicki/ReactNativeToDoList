@@ -10,8 +10,8 @@ import Settings from "./Settings/Settings";
 import MyProfile from "./Settings/MyProfile";
 import ChangePassword from "./Settings/ChangePassword";
 import ChangeEmail from "./Settings/ChangeEmail";
-import NewTask from "./NewTask/NewTask";
-import EditTask from "./EditTask/EditTask";
+import NewTask from "./List/NewTask/NewTask";
+import EditTask from "./List/EditTask/EditTask";
 
 const ListStack = new createStackNavigator({
   List: {

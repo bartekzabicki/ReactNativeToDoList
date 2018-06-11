@@ -11,8 +11,8 @@ import {
 class EditTask extends Component {
 
   state = {
-    name = "",
-    description = "",
+    name: "",
+    description: ""
   }
 
   render() {

@@ -43,7 +43,6 @@ export default class TaskCellComponent extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'left',
         marginLeft: 24,
         marginTop: 4,
         marginBottom: 4
