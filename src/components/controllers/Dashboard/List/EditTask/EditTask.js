@@ -10,13 +10,18 @@ import {
 
 class EditTask extends Component {
 
+  state = {
+    name = "",
+    description = "",
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            defaultValue = "hehe"
+            defaultValue = {this.state.name}
             placeholder="Name"
             returnKeyType="next"
             secureTextEntry
@@ -24,11 +29,11 @@ class EditTask extends Component {
           />
           <TextInput
             style={styles.input}
+            defaultValue = {this.state.description}
             placeholder="Description"
-            secureTextEntry
             returnKeyType="next"
             onSubmitEditing={() => this.confirmNewPasswordInput.focus()}
-            ref={input => (this.newPasswordInput = input)}
+            ref={input => (this.newDescription = input)}
           />
         </View>
         <View>
