@@ -12,6 +12,7 @@ import ChangePassword from "./Settings/ChangePassword";
 import ChangeEmail from "./Settings/ChangeEmail";
 import NewTask from "./NewTask/NewTask";
 import MyCalendar from "./Calendar/MyCalendar";
+import EditTask from "./EditTask/EditTask";
 
 const ListStack = new createStackNavigator({
   List: {
@@ -24,6 +25,12 @@ const ListStack = new createStackNavigator({
     screen: NewTask,
     navigationOptions: {
       title: "NewTask"
+    }
+  },
+  EditTask: {
+    screen: EditTask,
+    navigationOptions: {
+      title: "EditTask"
     }
   }
 });
