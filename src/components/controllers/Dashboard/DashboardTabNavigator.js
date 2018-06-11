@@ -10,12 +10,19 @@ import Settings from "./Settings/Settings";
 import MyProfile from "./Settings/MyProfile";
 import ChangePassword from "./Settings/ChangePassword";
 import ChangeEmail from "./Settings/ChangeEmail";
+import NewTask from "./NewTask/NewTask";
 
 const ListStack = new createStackNavigator({
   List: {
     screen: MyList,
     navigationOptions: {
       title: "MyList"
+    }
+  },
+  NewTask: {
+    screen: NewTask,
+    navigationOptions: {
+      title: "NewTask"
     }
   }
 });
