@@ -6,21 +6,24 @@ import {
     } from "react-native"
 ;
 
-class TaskCellComponent extends Component{
+export default class TaskCellComponent extends Component{
     render(){
         return (
             <View style={styles.container}>
-                <Text>TaskCell</Text>
+                <Text style={{fontSize: 17, fontWeight: '500'}}>{this.props.title}</Text>
+                <Text style={{fontSize: 12}}>{this.props.subtitle}</Text>
             </View>
         );
     }
 }
-export default TaskCellComponent;
 
 const styles = StyleSheet.create({
     container:{
     flex:1,
-    alignItems:'center',
-    justifyContent:'center'
+    alignItems:'left',
+    justifyContent:'left',
+    marginLeft: 24,
+    marginTop: 4,
+    marginBottom: 4
     }
 });
