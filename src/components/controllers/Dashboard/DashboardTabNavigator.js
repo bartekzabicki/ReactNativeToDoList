@@ -11,6 +11,7 @@ import MyProfile from "./Settings/MyProfile";
 import ChangePassword from "./Settings/ChangePassword";
 import ChangeEmail from "./Settings/ChangeEmail";
 import NewTask from "./NewTask/NewTask";
+import MyCalendar from "./Calendar/MyCalendar";
 
 const ListStack = new createStackNavigator({
   List: {
@@ -23,6 +24,15 @@ const ListStack = new createStackNavigator({
     screen: NewTask,
     navigationOptions: {
       title: "NewTask"
+    }
+  }
+});
+
+const CalendarStack = new createStackNavigator({
+  MyCalendar: {
+    screen: MyCalendar,
+    navigationOptions: {
+      title: "My calendar"
     }
   }
 });
@@ -69,6 +79,23 @@ const DashboardTabNavigator = new createBottomTabNavigator({
                   style={{width: 24, height: 24}}
               />
           )
+      }
+    }
+  },
+  Calendar: {
+    screen: CalendarStack,
+    navigationOptions: {
+      tabBarLabel: 'Calendar',
+      tabBarIcon: ({focused}) => {
+        const image = focused
+        ? require('../../../assets/selectedCalendar.png') 
+        : require('../../../assets/calendar.png')
+        return (
+            <Image 
+                source={image}
+                style={{width: 24, height: 24}}
+            />
+        )
       }
     }
   },
