@@ -14,10 +14,8 @@ class MyList extends Component {
           {users.map(user => (
             <ListItem
               key={user.login.username}
-              roundAvatar
-              avatar={{ uri: user.picture.thumbnail }}
               title={`${user.name.first.toUpperCase()} ${user.name.last.toUpperCase()}`}
-              subtitle={user.email}
+              subtitle={user.registered}
               // onPress={() => this.onLearnMore(user)}
             />
           ))}
