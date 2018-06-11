@@ -31,10 +31,7 @@ class Settings extends Component {
         <TouchableOpacity
           style={styles.customButton}
           onPress={() =>
-            this.props.navigation
-              .dangerouslyGetParent()
-              .dangerouslyGetParent()
-              .navigate("ChangePassword")
+            this.props.navigation.navigate("ChangePassword")
           }
         >
           <Text style={styles.customText}>Change password</Text>

@@ -105,10 +105,11 @@ export default class MyList extends Component {
         <FlatList
           data={this.state.data}
           renderItem={({ item }) => (
-            <TaskCellComponent
+            <TaskCellComponent navigation={this.props.navigation}
               title={`${item.name.first} ${item.name.last}`}
               subtitle={item.registered}
               containerStyle={{ borderBottomWidth: 0 }}
+              onPress= {() => console.log("abc2")}
             />
           )}
           keyExtractor={item => item.email}
@@ -119,6 +120,7 @@ export default class MyList extends Component {
           refreshing={this.state.refreshing}
           onEndReached={this.handleLoadMore}
           onEndReachedThreshold={50}
+          onPress= {() => console.log("abc2")}
         />
         <ActionButton
         buttonColor="rgba(231,76,60,1)"
