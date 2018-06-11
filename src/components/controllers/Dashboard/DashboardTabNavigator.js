@@ -58,19 +58,35 @@ const DashboardTabNavigator = new createBottomTabNavigator({
   List: {
     screen: ListStack,
     navigationOptions: {
-        tabBarIcon: (focused, tintColor) => (
-            <Image source={require("../../../assets/list.png")} style={{width: 24, height: 24}} />
-
+      tabBarLabel: 'List',
+      tabBarIcon: ({ focused }) => {
+          const image = focused 
+          ? require('../../../assets/selectedList.png') 
+          : require('../../../assets/list.png')
+          return (
+              <Image 
+                  source={image}
+                  style={{width: 24, height: 24}}
+              />
           )
+      }
     }
   },
   Settings: {
       screen: SettingsStack,
       navigationOptions: {
-        tabBarIcon: (focused, tintColor) => (
-            <Image source={require("../../../assets/settings.png")} style={{width: 24, height: 24}} />
-
-          )
+        tabBarLabel: 'Settings',
+        tabBarIcon: ({ focused }) => {
+            const image = focused 
+            ? require('../../../assets/selectedSettings.png') 
+            : require('../../../assets/settings.png')
+            return (
+                <Image 
+                    source={image}
+                    style={{width: 24, height: 24}}
+                />
+            )
+        }
       }
   }
 });
