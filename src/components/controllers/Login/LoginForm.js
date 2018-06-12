@@ -13,6 +13,7 @@ import {
 import { LOGIN_URL } from "../../../constants/Constants";
 import Loader from "../../../Loader/Loader";
 import RoundedButton from "../../../common/components/RoundedButton"
+import { ValidateLoginFields } from "../../../common/Validators/TextInputValidator"
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -32,18 +33,12 @@ export default class LoginForm extends React.Component {
   }
 
   _loginPressed() {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    const password = this.state.password;
-    const email = this.state.email;
-    if (email.trim() == "") {
-      Alert.alert("Enter email");
-    } else if (password.trim() == "") {
-      Alert.alert("Enter password");
-    } else if (emailRegex.test(this.state.email) === false) {
-      Alert.alert("Email is Not Correct");
-    } else {
+    let result = ValidateLoginFields(this.state.email, this.state.password)
+    if (result.isValidated == true) {
       this.setState({ loading: true });
       this._loginWithAPI();
+    } else {
+      Alert.alert(result.errorMessage)
     }
   }
 
