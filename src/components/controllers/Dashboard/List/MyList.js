@@ -114,7 +114,7 @@ export default class MyList extends Component {
 
   render() {
     return (
-      <View>
+      <View style={styles.buttonContainer}>
       <View containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
         <FlatList
           data={this.state.data}
@@ -151,5 +151,8 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center"
+  },
+  buttonContainer: {
+    flex: 1
   }
 });
