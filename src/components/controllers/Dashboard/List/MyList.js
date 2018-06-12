@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, FlatList, ActivityIndicator } from "react-native";
+import { View, Text, StyleSheet, FlatList, ActivityIndicator, AsyncStorage } from "react-native";
 import { List, ListItem, SearchBar } from "react-native-elements";
 
 import ActionButton from 'react-native-action-button';
@@ -23,26 +23,43 @@ export default class MyList extends Component {
   componentDidMount() {
     this.makeRemoteRequest();
   }
-
-  makeRemoteRequest = () => {
+  async makeRemoteRequest() {
     const { page, seed } = this.state;
-    const url = `https://randomuser.me/api/?seed=${seed}&page=${page}&results=20`;
+    const url = `http://213.32.87.132:3000/api/notes`;
     this.setState({ loading: true });
-
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          data: page === 1 ? res.results : [...this.state.data, ...res.results],
-          error: res.error || null,
-          loading: false,
-          refreshing: false
+    AsyncStorage.getItem("token").then((value) => {
+      this.setState({"token": value});
+  })
+  .then(res => {
+      fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": this.state.token
+        }
+      }).then(response => {
+        response.json().then((responseJSON) => {
+          if (response.status === 200) {
+            this.setState({
+              data: responseJSON,
+              error: null,
+              loading: false,
+              refreshing: false
+            });
+            return
+          } else {
+            Alert.alert(responseJSON.error)
+          }
+        }).catch( (error) => {
+          Alert.alert(error)
         });
-      })
-      .catch(error => {
-        this.setState({ error, loading: false });
+      }).catch( (error) => {
+        Alert.alert(error)
       });
-  };
+  });
+  }
+
   handleRefresh = () => {
     this.setState(
       {
