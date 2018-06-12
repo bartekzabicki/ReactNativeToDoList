@@ -12,6 +12,7 @@ export default class MyList extends Component {
 
     this.state = {
       loading: false,
+      initial: [],
       data: [],
       error: null,
       refreshing: false
@@ -41,6 +42,7 @@ export default class MyList extends Component {
             if (response.status === 200) {
               this.setState({
                 data: responseJSON,
+                initial: responseJSON,
                 error: null,
                 loading: false,
                 refreshing: false
@@ -93,8 +95,34 @@ export default class MyList extends Component {
   };
 
   renderHeader = () => {
-    return <SearchBar placeholder="Type Here..." lightTheme round />;
+    return <SearchBar
+      placeholder="Type Here..."
+      lightTheme
+      round
+      onChangeText={this.searchBarOnChange} />;
   };
+
+  searchBarOnChange = (e) => {
+    let text = e.toLowerCase()
+    let items = this.state.initial
+    let filteredName = items.filter((item) => {
+      return item.title.toLowerCase().match(text)
+    })
+    if (!text || text === '') {
+      this.setState({
+        data: this.state.initial
+      })
+    } else if (!Array.isArray(filteredName) && !filteredName.length) {
+      this.setState({
+        noData: true
+      })
+    } else if (Array.isArray(filteredName)) {
+      this.setState({
+        noData: false,
+        data: filteredName
+      })
+    }
+  }
 
   renderFooter = () => {
     if (!this.state.loading) return null;
@@ -115,27 +143,27 @@ export default class MyList extends Component {
   render() {
     return (
       <View style={styles.buttonContainer}>
-      <View containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
-        <FlatList
-          data={this.state.data}
-          renderItem={({ item }) => (
-            <TaskCellComponent navigation={this.props.navigation}
-              task={item}
-              containerStyle={{ borderBottomWidth: 0 }}
-              onPress={() => console.log("abc2")}
-              key={item.key}
-            />
-          )}
-          keyExtractor={item => item.email}
-          ItemSeparatorComponent={this.renderSeparator}
-          ListHeaderComponent={this.renderHeader}
-          ListFooterComponent={this.renderFooter}
-          onRefresh={this.handleRefresh}
-          refreshing={this.state.refreshing}
-          onEndReachedThreshold={50}
-          onPress={() => console.log("abc2")}
-        />
-      </View>
+        <View containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
+          <FlatList
+            data={this.state.data}
+            renderItem={({ item }) => (
+              <TaskCellComponent navigation={this.props.navigation}
+                task={item}
+                containerStyle={{ borderBottomWidth: 0 }}
+                onPress={() => console.log("abc2")}
+                key={item.key}
+              />
+            )}
+            keyExtractor={item => item.email}
+            ItemSeparatorComponent={this.renderSeparator}
+            ListHeaderComponent={this.renderHeader}
+            ListFooterComponent={this.renderFooter}
+            onRefresh={this.handleRefresh}
+            refreshing={this.state.refreshing}
+            onEndReachedThreshold={50}
+            onPress={() => console.log("abc2")}
+          />
+        </View>
         <ActionButton
           buttonColor="rgba(231,76,60,1)"
           onPress={() => { this.props.navigation.navigate("NewTask") }}
