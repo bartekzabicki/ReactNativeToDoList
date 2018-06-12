@@ -120,8 +120,7 @@ export default class MyList extends Component {
           data={this.state.data}
           renderItem={({ item }) => (
             <TaskCellComponent navigation={this.props.navigation}
-              title={`${item.title}`}
-              subtitle={item.date}
+              task={item}
               containerStyle={{ borderBottomWidth: 0 }}
               onPress={() => console.log("abc2")}
               key={item.key}

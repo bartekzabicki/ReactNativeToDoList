@@ -7,13 +7,28 @@ import {
   Alert,
   TouchableOpacity
 } from "react-native";
+import DateTimePicker from "react-native-modal-datetime-picker";
+import moment from "moment";
 
-class EditTask extends Component {
+export default class EditTask extends Component {
 
-  state = {
-    name: "",
-    description: ""
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isDateTimePickerVisible: false,
+      selectedDate: this.props.navigation.state.params.task.date,
+    }
   }
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = date => {
+    this.setState({ isDatePicked: true });
+    this.setState({ selectedDate: moment(date).format("YYYY-MM-DD hh:mm") });
+    this._hideDateTimePicker();
+  };
 
   render() {
     return (
@@ -21,19 +36,28 @@ class EditTask extends Component {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            defaultValue = {this.state.name}
-            placeholder="Name"
+            defaultValue={this.props.navigation.state.params.task.title}
+            placeholder="Title"
             returnKeyType="next"
             secureTextEntry
             onSubmitEditing={() => this.newPasswordInput.focus()}
           />
           <TextInput
             style={styles.input}
-            defaultValue = {this.state.description}
+            defaultValue={this.props.navigation.state.params.task.content}
             placeholder="Description"
             returnKeyType="next"
             onSubmitEditing={() => this.confirmNewPasswordInput.focus()}
             ref={input => (this.newDescription = input)}
+          />
+          <TouchableOpacity onPress={this._showDateTimePicker}>
+            <Text style={styles.datePickerText} >{this.state.selectedDate}</Text>
+          </TouchableOpacity>
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this._handleDatePicked}
+            onCancel={this._hideDateTimePicker}
+            maximumDate={new Date()}
           />
         </View>
         <View>
@@ -48,7 +72,6 @@ class EditTask extends Component {
     );
   }
 }
-export default EditTask;
 
 const styles = StyleSheet.create({
   container: {
@@ -86,6 +109,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
     color: "white"
+  },
+  datePickerText: {
+    textAlign: "center",
+    marginTop: 24,
+    fontSize: 15
   }
 });
 

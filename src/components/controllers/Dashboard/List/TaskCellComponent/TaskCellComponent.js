@@ -28,11 +28,11 @@ export default class TaskCellComponent extends Component {
                 autoClose='true'
                 backgroundColor='transparent'>
                 <TouchableOpacity onPress={() => {
-                    this.props.navigation.navigate("EditTask")
+                    this.props.navigation.navigate("EditTask",{task: this.props.task})
                 }}>
                     <View style={styles.container}>
-                        <Text style={{ fontSize: 17, fontWeight: '500' }}>{this.props.title}</Text>
-                        <Text style={{ fontSize: 12 }}>{this.props.subtitle}</Text>
+                        <Text style={{ fontSize: 17, fontWeight: '500' }}>{this.props.task.title}</Text>
+                        <Text style={{ fontSize: 12 }}>{this.props.task.date}</Text>
                     </View>
                 </TouchableOpacity>
             </Swipeout>
