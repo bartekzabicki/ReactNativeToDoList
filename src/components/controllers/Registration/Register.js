@@ -8,40 +8,55 @@ import {
   KeyboardAvoidingView,
   Alert
 } from "react-native";
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from "react-navigation";
 
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
+import Loader from "../../../Loader/Loader";
 
 class Register extends Component {
-  state = {
-    email: "",
-    password: "",
-    confirmPassword: "",
-    isDateTimePickerVisible: false,
-    selectedDate: "Select birthday date",
-    isDatePicked: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      isDateTimePickerVisible: false,
+      selectedDate: "Select birthday date",
+      isDatePicked: false,
+      loading: false
+    };
+  }
 
   _registerPressed() {
-    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (this.state.email.trim() == "") {
-      Alert.alert("Enter email");
-    } else if (this.state.password.trim() == "") {
-      Alert.alert("Enter password");
-    } else if (this.state.confirmPassword.trim() == "") {
-      Alert.alert("Confirm password");
-    } else if (this.state.isDatePicked == false) {
-      Alert.alert("Choose birthday date");
-    } else if (this.state.password != this.state.confirmPassword) {
-      Alert.alert("Passwords are different");
-    } else {
-      if (emailRegex.test(this.state.email) === false) {
-        Alert.alert("Email is Not Correct");
-      } else {
-        this._sendUser()
-      }
-    }
+    // let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    // if (this.state.email.trim() == "") {
+    //   Alert.alert("Enter email");
+    // } else if (this.state.password.trim() == "") {
+    //   Alert.alert("Enter password");
+    // } else if (this.state.confirmPassword.trim() == "") {
+    //   Alert.alert("Confirm password");
+    // } else if (this.state.isDatePicked == false) {
+    //   Alert.alert("Choose birthday date");
+    // } else if (this.state.password != this.state.confirmPassword) {
+    //   Alert.alert("Passwords are different");
+    // } else {
+    //   if (emailRegex.test(this.state.email) === false) {
+    //     Alert.alert("Email is Not Correct");
+    //   } else {
+    //     this.setState({ loading: true });
+    //     this._sendUser();
+    //   }
+    // }
+    this.setState({ loading: true });
+    this._sendUser();
+  }
+
+  _hideSpinnerWithText(text) {
+    this.setState({ loading: false });
+    setTimeout(() => {
+      Alert.alert(text);
+    }, 100);
   }
 
   async _sendUser() {
@@ -51,18 +66,22 @@ class Register extends Component {
         Accept: "application/json",
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ email: this.state.email, password: this.state.password, date: this.state.selectedDate})
-    })
-    .catch((error) => {
-      console.error(error);
+      body: JSON.stringify({
+        email: this.state.email,
+        password: this.state.password,
+        date: this.state.selectedDate
+      })
+    }).catch(error => {
+      this._hideSpinnerWithText(error);
     });
     if (response.status === 200) {
-      Alert.alert("Your account was created!")
-      this.props.navigation.dispatch(NavigationActions.back())
-      return
+      this.setState({ loading: false });
+      this._hideSpinnerWithText("Your account was created!");
+      this.props.navigation.dispatch(NavigationActions.back());
+      return;
     }
-    const responseJSON = await response.json()
-    Alert.alert(responseJSON.error)
+    const responseJSON = await response.json();
+    this._hideSpinnerWithText(responseJSON.error);
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -78,6 +97,7 @@ class Register extends Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container}>
+        <Loader loading={this.state.loading} />
         <View style={styles.headerView}>
           <Text style={styles.headerText}>Create account and have fun!</Text>
         </View>
@@ -89,7 +109,7 @@ class Register extends Component {
             returnKeyType="next"
             onSubmitEditing={() => this.passwordInput.focus()}
             onChangeText={value => this.setState({ email: value })}
-            autoCapitalize = 'none'
+            autoCapitalize="none"
           />
           <TextInput
             style={styles.input}
@@ -188,4 +208,3 @@ const styles = StyleSheet.create({
     fontSize: 15
   }
 });
-
