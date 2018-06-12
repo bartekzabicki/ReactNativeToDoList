@@ -1,3 +1,4 @@
+import { React } from "react";
 import { Image } from 'react-native';
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
 import MyList from './List/MyList';

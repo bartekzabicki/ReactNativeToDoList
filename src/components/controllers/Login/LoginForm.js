@@ -10,32 +10,44 @@ import {
   AsyncStorage
 } from "react-native";
 
+import { LOGIN_URL } from "../../../constants/Constants";
+import Loader from "../../../Loader/Loader";
+
 export default class LoginForm extends React.Component {
-  state = {
-    email: "",
-    password: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      loading: false
+    };
+  }
+
+  _hideSpinnerWithText(text) {
+    this.setState({ loading: false });
+    setTimeout(() => {
+      Alert.alert(text);
+    }, 100);
+  }
 
   _loginPressed() {
-    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let passwordRegex = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/;
-    let password = this.state.password;
-    let email = this.state.email;
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    const password = this.state.password;
+    const email = this.state.email;
     if (email.trim() == "") {
       Alert.alert("Enter email");
     } else if (password.trim() == "") {
       Alert.alert("Enter password");
+    } else if (emailRegex.test(this.state.email) === false) {
+      Alert.alert("Email is Not Correct");
     } else {
-      if (emailRegex.test(this.state.email) === false) {
-        Alert.alert("Email is Not Correct");
-      } else {
-        this._loginWithAPI();
-      }
+      this.setState({ loading: true });
+      this._loginWithAPI();
     }
   }
 
   async _loginWithAPI() {
-    const response = await fetch("http://213.32.87.132:3000/api/user/login", {
+    const response = await fetch(LOGIN_URL, {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -46,21 +58,22 @@ export default class LoginForm extends React.Component {
         password: this.state.password
       })
     }).catch(error => {
-      console.error(error);
+      this._hideSpinnerWithText(error)
     });
     const responseJSON = await response.json();
     if (response.status === 200) {
-      AsyncStorage.setItem("token", responseJSON.token)
-      this.props.navigation.navigate("TabNavigator")
-      return
-    } else {
-      Alert.alert(responseJSON.error)
+      this.setState({ loading: false });
+      AsyncStorage.setItem("token", responseJSON.token);
+      this.props.navigation.navigate("TabNavigator");
+      return;
     }
+    this._hideSpinnerWithText(responseJSON.error)
   }
 
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <Loader loading={this.state.loading} />
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}

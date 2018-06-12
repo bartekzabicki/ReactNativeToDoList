@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet, Image } from "react-native";
+import React from "react";
+import { StyleSheet, Image } from "react-native";
 
 import {
   createBottomTabNavigator,
@@ -83,7 +83,7 @@ const DashboardTabNavigator = new createBottomTabNavigator({
           return (
               <Image 
                   source={image}
-                  style={{width: 24, height: 24}}
+                  style={{ width: 24, height: 24 }}
               />
           )
       }
@@ -93,14 +93,14 @@ const DashboardTabNavigator = new createBottomTabNavigator({
     screen: CalendarStack,
     navigationOptions: {
       tabBarLabel: 'Calendar',
-      tabBarIcon: ({focused}) => {
+      tabBarIcon: ({ focused }) => {
         const image = focused
         ? require('../../../assets/selectedCalendar.png') 
         : require('../../../assets/calendar.png')
         return (
             <Image 
                 source={image}
-                style={{width: 24, height: 24}}
+                style={{ width: 24, height: 24 }}
             />
         )
       }
@@ -117,7 +117,7 @@ const DashboardTabNavigator = new createBottomTabNavigator({
             return (
                 <Image 
                     source={image}
-                    style={{width: 24, height: 24}}
+                    style={{ width: 24, height: 24 }}
                 />
             )
         }
@@ -127,10 +127,4 @@ const DashboardTabNavigator = new createBottomTabNavigator({
 
 export default DashboardTabNavigator;
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center"
-  }
-});
+

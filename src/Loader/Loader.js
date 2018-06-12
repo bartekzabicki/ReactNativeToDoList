@@ -13,13 +13,15 @@ const Loader = props => {
   } = props;
 return (
     <Modal
-    transparent={true}
+    transparent
     animationType={'none'}
-    visible={loading}>
+    visible={loading}
+    >
     <View style={styles.modalBackground}>
       <View style={styles.activityIndicatorWrapper}>
         <ActivityIndicator
-          animating={loading} />
+          animating={loading}
+        />
       </View>
     </View>
     ></Modal>

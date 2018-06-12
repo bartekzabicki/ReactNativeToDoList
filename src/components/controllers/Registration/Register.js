@@ -13,6 +13,7 @@ import { NavigationActions } from "react-navigation";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 import Loader from "../../../Loader/Loader";
+import { REGISTER_URL } from "../../../constants/Constants";
 
 class Register extends Component {
   constructor(props) {
@@ -60,7 +61,7 @@ class Register extends Component {
   }
 
   async _sendUser() {
-    const response = await fetch("http://213.32.87.132:3000/api/user", {
+    const response = await fetch(REGISTER_URL, {
       method: "POST",
       headers: {
         Accept: "application/json",
