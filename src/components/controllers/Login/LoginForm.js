@@ -10,10 +10,10 @@ import {
   AsyncStorage
 } from "react-native";
 
-import { LOGIN_URL } from "../../../constants/Constants";
 import Loader from "../../../Loader/Loader";
 import RoundedButton from "../../../common/components/RoundedButton"
 import { ValidateLoginFields } from "../../../common/validators/TextInputValidator"
+import ApiManager from "../../../common/networking/ApiManager";
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -43,27 +43,14 @@ export default class LoginForm extends React.Component {
   }
 
   async _loginWithAPI() {
-    const response = await fetch(LOGIN_URL, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      })
-    }).catch(error => {
-      this._hideSpinnerWithText(error)
-    });
-    const responseJSON = await response.json();
-    if (response.status === 200) {
+    let apiResult = await ApiManager.login(this.state);
+    if (apiResult.success == true) {
       this.setState({ loading: false });
-      AsyncStorage.setItem("token", responseJSON.token);
+      AsyncStorage.setItem("token", apiResult.token);
       this.props.navigation.navigate("TabNavigator");
-      return;
+    } else {
+      this._hideSpinnerWithText(apiResult.errorMessage)
     }
-    this._hideSpinnerWithText(responseJSON.error)
   }
 
   render() {

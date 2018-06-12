@@ -34,7 +34,7 @@ class Register extends Component {
 
   _registerPressed() {
     let result = ValidateRegisterFields(this.state);
-    if (result.isValidated == true) {
+    if (result.isValidated == true) { 
       this.setState({ loading: true });
       this._sendUser();
     } else {
