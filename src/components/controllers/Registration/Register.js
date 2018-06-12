@@ -14,6 +14,7 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 import Loader from "../../../Loader/Loader";
 import { REGISTER_URL } from "../../../constants/Constants";
+import RoundedButton from "../../../common/components/RoundedButton"
 
 class Register extends Component {
   constructor(props) {
@@ -30,27 +31,23 @@ class Register extends Component {
   }
 
   _registerPressed() {
-    // let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    // if (this.state.email.trim() == "") {
-    //   Alert.alert("Enter email");
-    // } else if (this.state.password.trim() == "") {
-    //   Alert.alert("Enter password");
-    // } else if (this.state.confirmPassword.trim() == "") {
-    //   Alert.alert("Confirm password");
-    // } else if (this.state.isDatePicked == false) {
-    //   Alert.alert("Choose birthday date");
-    // } else if (this.state.password != this.state.confirmPassword) {
-    //   Alert.alert("Passwords are different");
-    // } else {
-    //   if (emailRegex.test(this.state.email) === false) {
-    //     Alert.alert("Email is Not Correct");
-    //   } else {
-    //     this.setState({ loading: true });
-    //     this._sendUser();
-    //   }
-    // }
-    this.setState({ loading: true });
-    this._sendUser();
+    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    if (this.state.email.trim() == "") {
+      Alert.alert("Enter email");
+    } else if (this.state.password.trim() == "") {
+      Alert.alert("Enter password");
+    } else if (this.state.confirmPassword.trim() == "") {
+      Alert.alert("Confirm password");
+    } else if (this.state.isDatePicked == false) {
+      Alert.alert("Choose birthday date");
+    } else if (this.state.password != this.state.confirmPassword) {
+      Alert.alert("Passwords are different");
+    } else if (emailRegex.test(this.state.email) === false) {
+      Alert.alert("Email is Not Correct");
+    } else {
+      this.setState({ loading: true });
+      this._sendUser();
+    }
   }
 
   _hideSpinnerWithText(text) {
@@ -139,14 +136,7 @@ class Register extends Component {
             maximumDate={new Date()}
           />
         </View>
-        <View>
-          <TouchableOpacity
-            style={styles.customButton}
-            onPress={this._registerPressed.bind(this)}
-          >
-            <Text style={styles.customButtonText}>Register</Text>
-          </TouchableOpacity>
-        </View>
+        <RoundedButton title="Register" onPress={this._registerPressed.bind(this)} />
       </KeyboardAvoidingView>
     );
   }

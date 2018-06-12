@@ -12,6 +12,7 @@ import {
 
 import { LOGIN_URL } from "../../../constants/Constants";
 import Loader from "../../../Loader/Loader";
+import RoundedButton from "../../../common/components/RoundedButton"
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -95,18 +96,8 @@ export default class LoginForm extends React.Component {
           />
         </View>
         <View style={styles.customButtonContainer}>
-          <TouchableOpacity
-            style={styles.customButton}
-            onPress={this._loginPressed.bind(this)}
-          >
-            <Text style={styles.customButtonText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.customButton}
-            onPress={() => this.props.navigation.navigate("Register")}
-          >
-            <Text style={styles.customButtonText}>Register</Text>
-          </TouchableOpacity>
+          <RoundedButton title="Login" onPress={this._loginPressed.bind(this)} />
+          <RoundedButton title="Register" onPress={() => this.props.navigation.navigate("Register")} />
         </View>
       </KeyboardAvoidingView>
     );
