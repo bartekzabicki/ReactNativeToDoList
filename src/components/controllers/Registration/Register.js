@@ -177,22 +177,6 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: "center"
   },
-  customButton: {
-    height: 40,
-    backgroundColor: "#34495e",
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 16,
-    justifyContent: "center",
-    borderRadius: 10,
-    width: 200
-  },
-  customButtonText: {
-    textAlign: "center",
-    fontSize: 15,
-    fontWeight: "700",
-    color: "white"
-  },
   datePickerText: {
     textAlign: "center",
     marginTop: 24,
