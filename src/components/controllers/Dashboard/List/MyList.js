@@ -124,6 +124,7 @@ export default class MyList extends Component {
               subtitle={item.date}
               containerStyle={{ borderBottomWidth: 0 }}
               onPress={() => console.log("abc2")}
+              key={item.key}
             />
           )}
           keyExtractor={item => item.email}
