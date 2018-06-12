@@ -13,7 +13,7 @@ import {
 import { LOGIN_URL } from "../../../constants/Constants";
 import Loader from "../../../Loader/Loader";
 import RoundedButton from "../../../common/components/RoundedButton"
-import { ValidateLoginFields } from "../../../common/Validators/TextInputValidator"
+import { ValidateLoginFields } from "../../../common/validators/TextInputValidator"
 
 export default class LoginForm extends React.Component {
   constructor(props) {

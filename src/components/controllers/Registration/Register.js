@@ -14,7 +14,9 @@ import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 import Loader from "../../../Loader/Loader";
 import { REGISTER_URL } from "../../../constants/Constants";
-import RoundedButton from "../../../common/components/RoundedButton"
+import RoundedButton from "../../../common/components/RoundedButton";
+import { ValidateRegisterFields } from "../../../common/validators/TextInputValidator";
+import ApiManager from "../../../common/networking/ApiManager";
 
 class Register extends Component {
   constructor(props) {
@@ -31,22 +33,12 @@ class Register extends Component {
   }
 
   _registerPressed() {
-    const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (this.state.email.trim() == "") {
-      Alert.alert("Enter email");
-    } else if (this.state.password.trim() == "") {
-      Alert.alert("Enter password");
-    } else if (this.state.confirmPassword.trim() == "") {
-      Alert.alert("Confirm password");
-    } else if (this.state.isDatePicked == false) {
-      Alert.alert("Choose birthday date");
-    } else if (this.state.password != this.state.confirmPassword) {
-      Alert.alert("Passwords are different");
-    } else if (emailRegex.test(this.state.email) === false) {
-      Alert.alert("Email is Not Correct");
-    } else {
+    let result = ValidateRegisterFields(this.state);
+    if (result.isValidated == true) {
       this.setState({ loading: true });
       this._sendUser();
+    } else {
+      Alert.alert(result.errorMessage);
     }
   }
 
@@ -58,28 +50,13 @@ class Register extends Component {
   }
 
   async _sendUser() {
-    const response = await fetch(REGISTER_URL, {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-        date: this.state.selectedDate
-      })
-    }).catch(error => {
-      this._hideSpinnerWithText(error);
-    });
-    if (response.status === 200) {
-      this.setState({ loading: false });
+    let apiResult = await ApiManager.register(this.state);
+    if (apiResult.success == true) {
       this._hideSpinnerWithText("Your account was created!");
       this.props.navigation.dispatch(NavigationActions.back());
-      return;
+    } else {
+      this._hideSpinnerWithText(apiResult.errorMessage)
     }
-    const responseJSON = await response.json();
-    this._hideSpinnerWithText(responseJSON.error);
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -136,7 +113,10 @@ class Register extends Component {
             maximumDate={new Date()}
           />
         </View>
-        <RoundedButton title="Register" onPress={this._registerPressed.bind(this)} />
+        <RoundedButton
+          title="Register"
+          onPress={this._registerPressed.bind(this)}
+        />
       </KeyboardAvoidingView>
     );
   }
