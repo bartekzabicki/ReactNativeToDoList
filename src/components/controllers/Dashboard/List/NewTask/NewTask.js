@@ -5,10 +5,80 @@ import {
   StyleSheet,
   TextInput,
   Alert,
-  TouchableOpacity
+  TouchableOpacity, 
+  AsyncStorage
 } from "react-native";
+import DateTimePicker from "react-native-modal-datetime-picker";
+import moment from "moment";
 
-class NewTask extends Component {
+export default class NewTask extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      token: "",
+      title: "",
+      content: "",
+      latitude: 22.32,
+      longitude: 22.33,
+      isDateTimePickerVisible: false,
+      isDatePicked: false,
+      selectedDate: "Select date",
+    };
+    this.newTaskRequest = this.newTaskRequest.bind(this)
+  }
+
+  async newTaskRequest() {
+    console.log("Test");
+    var data = {
+     title: this.state.title,
+     content: this.state.content,
+     latitude: this.state.latitude,
+     longitude: this.state.longitude,
+     date: this.state.selectedDate
+    };
+    const url = `http://213.32.87.132:3000/api/notes/add`;
+    AsyncStorage.getItem("token").then((value) => {
+      this.setState({ token: value });
+    })
+    .then(res => {
+        console.log("Test2");
+        fetch(url, {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            "token": this.state.token
+          },
+          body: JSON.stringify(data)
+        }).then(response => {
+          response.json().then((responseJSON) => {
+            if (response.status === 200) {
+              console.log("Succ");
+              // this.props.navigation.dispatch(NavigationActions.back())
+            } else {
+              Alert.alert(responseJSON.error)
+            }
+          }).catch((error) => {
+            Alert.alert(error);
+          });
+        }).catch((error) => {
+          Alert.alert(error);
+        });
+      }).catch((error) => {
+        Alert.alert(error);
+      });
+  }
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = date => {
+    this.setState({ isDatePicked: true });
+    this.setState({ selectedDate: moment(date).format("YYYY-MM-DD hh:mm") });
+    this._hideDateTimePicker();
+  };
 
   render() {
     return (
@@ -18,22 +88,31 @@ class NewTask extends Component {
             style={styles.input}
             placeholder="Name"
             returnKeyType="next"
-            secureTextEntry
             onSubmitEditing={() => this.newPasswordInput.focus()}
+            onChangeText={value => this.setState({ title: value })}
           />
           <TextInput
             style={styles.input}
             placeholder="Description"
-            secureTextEntry
             returnKeyType="next"
             onSubmitEditing={() => this.confirmNewPasswordInput.focus()}
             ref={input => (this.newPasswordInput = input)}
+            onChangeText={value => this.setState({ content: value })}
+          />
+          <TouchableOpacity onPress={this._showDateTimePicker}>
+            <Text style={styles.datePickerText} >{this.state.selectedDate}</Text>
+          </TouchableOpacity>
+          <DateTimePicker
+            isVisible={this.state.isDateTimePickerVisible}
+            onConfirm={this._handleDatePicked}
+            onCancel={this._hideDateTimePicker}
+            maximumDate={new Date()}
           />
         </View>
         <View>
           <TouchableOpacity
             style={styles.customButton}
-            onPress={this._addPressed}
+            onPress={this.newTaskRequest}
           >
             <Text style={styles.customButtonText}>Add</Text>
           </TouchableOpacity>
@@ -42,7 +121,6 @@ class NewTask extends Component {
     );
   }
 }
-export default NewTask;
 
 const styles = StyleSheet.create({
   container: {
@@ -80,6 +158,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontWeight: "700",
     color: "white"
+  },
+  datePickerText: {
+    textAlign: "center",
+    marginTop: 24,
+    fontSize: 15
   }
 });
 
