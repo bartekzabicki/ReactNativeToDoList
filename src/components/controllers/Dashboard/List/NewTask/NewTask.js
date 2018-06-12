@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
+import { NavigationActions } from 'react-navigation'
 
 export default class NewTask extends Component {
 
@@ -80,6 +81,11 @@ export default class NewTask extends Component {
     this._hideDateTimePicker();
   };
 
+  _addPressed = () => {
+    this.newTaskRequest()
+    this.props.navigation.dispatch(NavigationActions.back())
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -88,16 +94,14 @@ export default class NewTask extends Component {
             style={styles.input}
             placeholder="Name"
             returnKeyType="next"
-            onSubmitEditing={() => this.newPasswordInput.focus()}
             onChangeText={value => this.setState({ title: value })}
           />
           <TextInput
-            style={styles.input}
+            style={styles.inputMultiline}
             placeholder="Description"
             returnKeyType="next"
-            onSubmitEditing={() => this.confirmNewPasswordInput.focus()}
-            ref={input => (this.newPasswordInput = input)}
             onChangeText={value => this.setState({ content: value })}
+            multiline={true}
           />
           <TouchableOpacity onPress={this._showDateTimePicker}>
             <Text style={styles.datePickerText} >{this.state.selectedDate}</Text>
@@ -112,7 +116,7 @@ export default class NewTask extends Component {
         <View>
           <TouchableOpacity
             style={styles.customButton}
-            onPress={this.newTaskRequest}
+            onPress={this._addPressed}
           >
             <Text style={styles.customButtonText}>Add</Text>
           </TouchableOpacity>
@@ -134,6 +138,18 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
+    marginLeft: 24,
+    marginRight: 24,
+    marginTop: 16,
+    paddingHorizontal: 10,
+    color: "black",
+    borderColor: "#34495e",
+    borderWidth: 0.5,
+    borderRadius: 10
+  },
+  inputMultiline: {
+    minHeight: 40,
+    maxHeight: 200,
     marginLeft: 24,
     marginRight: 24,
     marginTop: 16,
