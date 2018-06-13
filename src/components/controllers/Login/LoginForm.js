@@ -10,57 +10,53 @@ import {
   AsyncStorage
 } from "react-native";
 
+import Loader from "../../../Loader/Loader";
+import RoundedButton from "../../../common/components/RoundedButton"
+import { ValidateLoginFields } from "../../../common/validators/TextInputValidator"
+import ApiManager from "../../../common/networking/ApiManager";
+
 export default class LoginForm extends React.Component {
-  state = {
-    email: "",
-    password: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      loading: false
+    };
+  }
+
+  _hideSpinnerWithText(text) {
+    this.setState({ loading: false });
+    setTimeout(() => {
+      Alert.alert(text);
+    }, 100);
+  }
 
   _loginPressed() {
-    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    let passwordRegex = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{6,20}$/;
-    let password = this.state.password;
-    let email = this.state.email;
-    if (email.trim() == "") {
-      Alert.alert("Enter email");
-    } else if (password.trim() == "") {
-      Alert.alert("Enter password");
+    let result = ValidateLoginFields(this.state.email, this.state.password)
+    if (result.isValidated == true) {
+      this.setState({ loading: true });
+      this._loginWithAPI();
     } else {
-      if (emailRegex.test(this.state.email) === false) {
-        Alert.alert("Email is Not Correct");
-      } else {
-        this._loginWithAPI();
-      }
+      Alert.alert(result.errorMessage)
     }
   }
 
   async _loginWithAPI() {
-    const response = await fetch("http://213.32.87.132:3000/api/user/login", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password
-      })
-    }).catch(error => {
-      console.error(error);
-    });
-    const responseJSON = await response.json();
-    if (response.status === 200) {
-      AsyncStorage.setItem("token", responseJSON.token)
-      this.props.navigation.navigate("TabNavigator")
-      return
+    let apiResult = await ApiManager.login(this.state);
+    if (apiResult.success == true) {
+      this.setState({ loading: false });
+      AsyncStorage.setItem("token", apiResult.token);
+      this.props.navigation.navigate("TabNavigator");
     } else {
-      Alert.alert(responseJSON.error)
+      this._hideSpinnerWithText(apiResult.errorMessage)
     }
   }
 
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
+        <Loader loading={this.state.loading} />
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
@@ -82,18 +78,8 @@ export default class LoginForm extends React.Component {
           />
         </View>
         <View style={styles.customButtonContainer}>
-          <TouchableOpacity
-            style={styles.customButton}
-            onPress={this._loginPressed.bind(this)}
-          >
-            <Text style={styles.customButtonText}>Login</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.customButton}
-            onPress={() => this.props.navigation.navigate("Register")}
-          >
-            <Text style={styles.customButtonText}>Register</Text>
-          </TouchableOpacity>
+          <RoundedButton title="Login" onPress={this._loginPressed.bind(this)} />
+          <RoundedButton title="Register" onPress={() => this.props.navigation.navigate("Register")} />
         </View>
       </KeyboardAvoidingView>
     );
@@ -123,20 +109,4 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: "center"
   },
-  customButton: {
-    height: 40,
-    backgroundColor: "#34495e",
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 16,
-    justifyContent: "center",
-    borderRadius: 10,
-    width: 200
-  },
-  customButtonText: {
-    textAlign: "center",
-    fontSize: 15,
-    fontWeight: "700",
-    color: "white"
-  }
 });

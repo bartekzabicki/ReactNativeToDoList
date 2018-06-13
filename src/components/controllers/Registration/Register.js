@@ -8,61 +8,55 @@ import {
   KeyboardAvoidingView,
   Alert
 } from "react-native";
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from "react-navigation";
 
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
+import Loader from "../../../Loader/Loader";
+import { REGISTER_URL } from "../../../constants/Constants";
+import RoundedButton from "../../../common/components/RoundedButton";
+import { ValidateRegisterFields } from "../../../common/validators/TextInputValidator";
+import ApiManager from "../../../common/networking/ApiManager";
 
 class Register extends Component {
-  state = {
-    email: "",
-    password: "",
-    confirmPassword: "",
-    isDateTimePickerVisible: false,
-    selectedDate: "Select birthday date",
-    isDatePicked: false
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: "",
+      password: "",
+      confirmPassword: "",
+      isDateTimePickerVisible: false,
+      selectedDate: "Select birthday date",
+      isDatePicked: false,
+      loading: false
+    };
+  }
 
   _registerPressed() {
-    let emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-    if (this.state.email.trim() == "") {
-      Alert.alert("Enter email");
-    } else if (this.state.password.trim() == "") {
-      Alert.alert("Enter password");
-    } else if (this.state.confirmPassword.trim() == "") {
-      Alert.alert("Confirm password");
-    } else if (this.state.isDatePicked == false) {
-      Alert.alert("Choose birthday date");
-    } else if (this.state.password != this.state.confirmPassword) {
-      Alert.alert("Passwords are different");
+    let result = ValidateRegisterFields(this.state);
+    if (result.isValidated == true) { 
+      this.setState({ loading: true });
+      this._sendUser();
     } else {
-      if (emailRegex.test(this.state.email) === false) {
-        Alert.alert("Email is Not Correct");
-      } else {
-        this._sendUser()
-      }
+      Alert.alert(result.errorMessage);
     }
   }
 
+  _hideSpinnerWithText(text) {
+    this.setState({ loading: false });
+    setTimeout(() => {
+      Alert.alert(text);
+    }, 100);
+  }
+
   async _sendUser() {
-    const response = await fetch("http://213.32.87.132:3000/api/user", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email: this.state.email, password: this.state.password, date: this.state.selectedDate})
-    })
-    .catch((error) => {
-      console.error(error);
-    });
-    if (response.status === 200) {
-      Alert.alert("Your account was created!")
-      this.props.navigation.dispatch(NavigationActions.back())
-      return
+    let apiResult = await ApiManager.register(this.state);
+    if (apiResult.success == true) {
+      this._hideSpinnerWithText("Your account was created!");
+      this.props.navigation.dispatch(NavigationActions.back());
+    } else {
+      this._hideSpinnerWithText(apiResult.errorMessage)
     }
-    const responseJSON = await response.json()
-    Alert.alert(responseJSON.error)
   }
 
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -78,6 +72,7 @@ class Register extends Component {
   render() {
     return (
       <KeyboardAvoidingView style={styles.container}>
+        <Loader loading={this.state.loading} />
         <View style={styles.headerView}>
           <Text style={styles.headerText}>Create account and have fun!</Text>
         </View>
@@ -89,7 +84,7 @@ class Register extends Component {
             returnKeyType="next"
             onSubmitEditing={() => this.passwordInput.focus()}
             onChangeText={value => this.setState({ email: value })}
-            autoCapitalize = 'none'
+            autoCapitalize="none"
           />
           <TextInput
             style={styles.input}
@@ -118,14 +113,10 @@ class Register extends Component {
             maximumDate={new Date()}
           />
         </View>
-        <View>
-          <TouchableOpacity
-            style={styles.customButton}
-            onPress={this._registerPressed.bind(this)}
-          >
-            <Text style={styles.customButtonText}>Register</Text>
-          </TouchableOpacity>
-        </View>
+        <RoundedButton
+          title="Register"
+          onPress={this._registerPressed.bind(this)}
+        />
       </KeyboardAvoidingView>
     );
   }
@@ -166,26 +157,9 @@ const styles = StyleSheet.create({
     flex: 2,
     alignItems: "center"
   },
-  customButton: {
-    height: 40,
-    backgroundColor: "#34495e",
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 16,
-    justifyContent: "center",
-    borderRadius: 10,
-    width: 200
-  },
-  customButtonText: {
-    textAlign: "center",
-    fontSize: 15,
-    fontWeight: "700",
-    color: "white"
-  },
   datePickerText: {
     textAlign: "center",
     marginTop: 24,
     fontSize: 15
   }
 });
-
