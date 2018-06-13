@@ -12,8 +12,8 @@ export default class MyList extends Component {
 
     this.state = {
       loading: false,
-      initial: [],
-      data: [],
+      initial: null,
+      data: null,
       error: null,
       refreshing: false
     };
@@ -41,8 +41,8 @@ export default class MyList extends Component {
           response.json().then((responseJSON) => {
             if (response.status === 200) {
               this.setState({
-                data: responseJSON,
-                initial: responseJSON,
+                data: responseJSON.size > 0 ? responseJSON : null,
+                initial: responseJSON.size > 0 ? responseJSON : null,
                 error: null,
                 loading: false,
                 refreshing: false
