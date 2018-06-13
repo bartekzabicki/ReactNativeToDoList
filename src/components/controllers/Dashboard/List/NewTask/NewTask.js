@@ -10,7 +10,9 @@ import {
 } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
-import { NavigationActions } from 'react-navigation'
+import { NavigationActions } from 'react-navigation';
+import RoundedButton from "../../../../../common/components/RoundedButton";
+import Validator from "../../../../../common/validators/TextInputValidator";
 
 export default class NewTask extends Component {
 
@@ -39,6 +41,7 @@ export default class NewTask extends Component {
      longitude: this.state.longitude,
      date: this.state.selectedDate
     };
+
     const url = `http://213.32.87.132:3000/api/notes/add`;
     AsyncStorage.getItem("token").then((value) => {
       this.setState({ token: value });
@@ -82,8 +85,12 @@ export default class NewTask extends Component {
   };
 
   _addPressed = () => {
-    this.newTaskRequest()
-    this.props.navigation.dispatch(NavigationActions.back())
+    let result = Validator.newTaskValidation(this.state)
+    if (result.isValidated == true) {
+      this.newTaskRequest()
+    } else {
+      Alert.alert(result.errorMessage)
+    }
   }
 
   render() {
@@ -113,14 +120,7 @@ export default class NewTask extends Component {
             maximumDate={new Date()}
           />
         </View>
-        <View>
-          <TouchableOpacity
-            style={styles.customButton}
-            onPress={this._addPressed}
-          >
-            <Text style={styles.customButtonText}>Add</Text>
-          </TouchableOpacity>
-        </View>
+        <RoundedButton title="Add note" onPress={this._addPressed} />
       </View>
     );
   }

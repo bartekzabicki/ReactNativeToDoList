@@ -12,7 +12,7 @@ import {
 
 import Loader from "../../../Loader/Loader";
 import RoundedButton from "../../../common/components/RoundedButton"
-import { ValidateLoginFields } from "../../../common/validators/TextInputValidator"
+import Validator from "../../../common/validators/TextInputValidator"
 import ApiManager from "../../../common/networking/ApiManager";
 
 export default class LoginForm extends React.Component {
@@ -33,7 +33,7 @@ export default class LoginForm extends React.Component {
   }
 
   _loginPressed() {
-    let result = ValidateLoginFields(this.state.email, this.state.password)
+    let result = Validator.loginValidation(this.state.email, this.state.password)
     if (result.isValidated == true) {
       this.setState({ loading: true });
       this._loginWithAPI();

@@ -13,9 +13,8 @@ import { NavigationActions } from "react-navigation";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 import Loader from "../../../Loader/Loader";
-import { REGISTER_URL } from "../../../constants/Constants";
 import RoundedButton from "../../../common/components/RoundedButton";
-import { ValidateRegisterFields } from "../../../common/validators/TextInputValidator";
+import Validator from "../../../common/validators/TextInputValidator";
 import ApiManager from "../../../common/networking/ApiManager";
 
 class Register extends Component {
@@ -33,7 +32,7 @@ class Register extends Component {
   }
 
   _registerPressed() {
-    let result = ValidateRegisterFields(this.state);
+    let result = Validator.registerValidation(this.state);
     if (result.isValidated == true) { 
       this.setState({ loading: true });
       this._sendUser();
