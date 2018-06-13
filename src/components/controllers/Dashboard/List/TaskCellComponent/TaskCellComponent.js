@@ -20,7 +20,7 @@ export default class TaskCellComponent extends Component {
             text: 'Edit',
             backgroundColor: 'blue',
             underlayColor: 'rgba(0, 0, 0, 1, 0.ć6)',
-            onPress: () => { this.props.navigation.navigate("EditTask") }
+            onPress: () => { this.props.navigation.navigate("EditTask",{task: this.props.task}) }
         }];
 
         return (

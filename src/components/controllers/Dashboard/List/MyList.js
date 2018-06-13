@@ -13,8 +13,10 @@ export default class MyList extends Component {
     this.state = {
       loading: false,
       initial: null,
-      data: null,
+      data: [],
       error: null,
+      page: 1,
+      resultsPerPage: 10,
       refreshing: false
     };
   }
@@ -23,7 +25,8 @@ export default class MyList extends Component {
     this.makeRemoteRequest();
   }
   async makeRemoteRequest() {
-    const url = `http://213.32.87.132:3000/api/notes`;
+    const { page, resultsPerPage } = this.state;
+    const url = `http://213.32.87.132:3000/api/notes?page=${page}&results=${resultsPerPage}`;
     this.setState({ loading: true });
     AsyncStorage.getItem("token").then((value) => {
       this.setState({ "token": value });
@@ -39,13 +42,15 @@ export default class MyList extends Component {
         }).then(response => {
           response.json().then((responseJSON) => {
             if (response.status === 200) {
+              // console.log(responseJSON.results)
               this.setState({
-                data: responseJSON.size > 0 ? responseJSON : null,
-                initial: responseJSON.size > 0 ? responseJSON : null,
+                data: responseJSON.results.length > 0 ? responseJSON.results : null,
+                initial: responseJSON.results.length > 0 ? responseJSON.results : null,
                 error: null,
                 loading: false,
                 refreshing: false
               });
+              console.log(responseJSON.results.length);
               return
             } else {
               // console.log(responseJSON.error);
@@ -65,6 +70,7 @@ export default class MyList extends Component {
   handleRefresh = () => {
     this.setState(
       {
+        page: 1,
         refreshing: true
       },
       () => {
@@ -75,6 +81,9 @@ export default class MyList extends Component {
 
   handleLoadMore = () => {
     this.setState(
+      {
+        page: this.state.page + 1
+      },
       () => {
         this.makeRemoteRequest();
       }
