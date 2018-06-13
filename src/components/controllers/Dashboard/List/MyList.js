@@ -143,7 +143,6 @@ export default class MyList extends Component {
   render() {
     return (
       <View style={styles.buttonContainer}>
-        <View containerStyle={{ borderTopWidth: 0, borderBottomWidth: 0 }}>
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
@@ -162,8 +161,8 @@ export default class MyList extends Component {
             refreshing={this.state.refreshing}
             onEndReachedThreshold={50}
             onPress={() => console.log("abc2")}
+            style={styles.list}
           />
-        </View>
         <ActionButton
           buttonColor="rgba(231,76,60,1)"
           onPress={() => { this.props.navigation.navigate("NewTask") }}
@@ -177,9 +176,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
   },
   buttonContainer: {
-    flex: 1
+    flex: 1,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
+  },
+  list: {
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0
   }
 });
