@@ -96,9 +96,50 @@
 		<data>
 		SyvObHkkk6SlcWtv7C2+/olJLD8=
 		</data>
+		<key>Frameworks/IDEBundleInjection.framework/IDEBundleInjection</key>
+		<data>
+		ooz0sIAaLKBGoFU5iKq8DR11NmY=
+		</data>
+		<key>Frameworks/IDEBundleInjection.framework/Info.plist</key>
+		<data>
+		R/knOPjsjrJNiVtUa2S4kYE749M=
+		</data>
+		<key>Frameworks/IDEBundleInjection.framework/_CodeSignature/CodeResources</key>
+		<data>
+		qcVgsOCxIzxwcNXLWXgRrNjnuT8=
+		</data>
+		<key>Frameworks/IDEBundleInjection.framework/version.plist</key>
+		<data>
+		K7jOt4uC+lqy/StneXlQVk21axY=
+		</data>
+		<key>Frameworks/XCTest.framework/Info.plist</key>
+		<data>
+		CYfyvPIGUR84QvCD7SuNDvG6Bxc=
+		</data>
+		<key>Frameworks/XCTest.framework/XCTest</key>
+		<data>
+		M3EBma1BpAxt7iGIjYcrm9BnNOc=
+		</data>
+		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
+		<data>
+		5EUn1qFgVTwSkfSLCubcLwgrx0c=
+		</data>
+		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			TuBj57ZP6zBqcL9HttO2Rucaw9E=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Frameworks/XCTest.framework/version.plist</key>
+		<data>
+		Etc/8BPenX54rv1uBx24u4bnqTg=
+		</data>
 		<key>Info.plist</key>
 		<data>
-		qWsEjg5yvm8qHBkmb0tndoAnV4Q=
+		mzBffg+ybWT0a1rqfVn9TK14f10=
 		</data>
 		<key>Ionicons.js</key>
 		<data>
@@ -155,6 +196,26 @@
 		<key>PkgInfo</key>
 		<data>
 		n57qDP4tZfLD1rCS43W0B4LQjzE=
+		</data>
+		<key>PlugIns/ReactToDoListTests.xctest.dSYM/Contents/Info.plist</key>
+		<data>
+		nyE5nLvAi600r+xCvuPTAYQY8Ms=
+		</data>
+		<key>PlugIns/ReactToDoListTests.xctest.dSYM/Contents/Resources/DWARF/ReactToDoListTests</key>
+		<data>
+		2uho8qp+PKqHavZAkP+GtM0arM0=
+		</data>
+		<key>PlugIns/ReactToDoListTests.xctest/Info.plist</key>
+		<data>
+		9BW8LWj2d7qRtIvSlgwI7IkVvLs=
+		</data>
+		<key>PlugIns/ReactToDoListTests.xctest/ReactToDoListTests</key>
+		<data>
+		9SiF+oxxdqDTOyIoVB2Kg7/VJlI=
+		</data>
+		<key>PlugIns/ReactToDoListTests.xctest/_CodeSignature/CodeResources</key>
+		<data>
+		7Fh2hG0e/Wy12Iin6XxuMr0jZHg=
 		</data>
 		<key>README.md</key>
 		<data>
@@ -660,6 +721,107 @@
 			fh3QPdTOkLZYBSVUzXRZ3xZxZxc4mlUvpMbVal+JM+Y=
 			</data>
 		</dict>
+		<key>Frameworks/IDEBundleInjection.framework/IDEBundleInjection</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			ooz0sIAaLKBGoFU5iKq8DR11NmY=
+			</data>
+			<key>hash2</key>
+			<data>
+			QTZkTlnemyTcrFMb3v3GdQcfmpRodaOjtevd5TjxiiY=
+			</data>
+		</dict>
+		<key>Frameworks/IDEBundleInjection.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			R/knOPjsjrJNiVtUa2S4kYE749M=
+			</data>
+			<key>hash2</key>
+			<data>
+			wLDjbULmM78l0rN5jh2/yPax234qVZL29OQBQmdYmOU=
+			</data>
+		</dict>
+		<key>Frameworks/IDEBundleInjection.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			qcVgsOCxIzxwcNXLWXgRrNjnuT8=
+			</data>
+			<key>hash2</key>
+			<data>
+			ZARlo4LD/z4nYhaCEocjb6nPjuZDCrLsQzn0n4GVr3s=
+			</data>
+		</dict>
+		<key>Frameworks/IDEBundleInjection.framework/version.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			K7jOt4uC+lqy/StneXlQVk21axY=
+			</data>
+			<key>hash2</key>
+			<data>
+			VzM0aDQjkmLy+IyPasdn9DeGkOOTuNMbKUMz+3efAaU=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			CYfyvPIGUR84QvCD7SuNDvG6Bxc=
+			</data>
+			<key>hash2</key>
+			<data>
+			Xsgm2dBly62EneiB04ryti89smi53XIXAOtYLFyW4ZE=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/XCTest</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			M3EBma1BpAxt7iGIjYcrm9BnNOc=
+			</data>
+			<key>hash2</key>
+			<data>
+			qAlGOWS6ltLA/WrYd4Rz6EHPivttCiNu41NTW7ulBAI=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			5EUn1qFgVTwSkfSLCubcLwgrx0c=
+			</data>
+			<key>hash2</key>
+			<data>
+			55ZdMLgNGz7Q67XNAv/M4f4uXy0R2d5+tlHRhlkL8t4=
+			</data>
+		</dict>
+		<key>Frameworks/XCTest.framework/en.lproj/InfoPlist.strings</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			TuBj57ZP6zBqcL9HttO2Rucaw9E=
+			</data>
+			<key>hash2</key>
+			<data>
+			89RGkjZaKuewYnjpzwhIswhqfrU8+pcEXqM/DHVrUmo=
+			</data>
+			<key>optional</key>
+			<true/>
+		</dict>
+		<key>Frameworks/XCTest.framework/version.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			Etc/8BPenX54rv1uBx24u4bnqTg=
+			</data>
+			<key>hash2</key>
+			<data>
+			Jh5i9giCFfo5GhN25CjMKdDJ6Kdlz/p4L95RITR+WeA=
+			</data>
+		</dict>
 		<key>Ionicons.js</key>
 		<dict>
 			<key>hash</key>
@@ -801,6 +963,61 @@
 			<key>hash2</key>
 			<data>
 			NC9CWcIUkNdDyFv9XLIgM5voHcU7RU+sU2mnqmpBMI4=
+			</data>
+		</dict>
+		<key>PlugIns/ReactToDoListTests.xctest.dSYM/Contents/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			nyE5nLvAi600r+xCvuPTAYQY8Ms=
+			</data>
+			<key>hash2</key>
+			<data>
+			YMxiUaLjQgL/9C7kCrWAKP5xWGWhh+er1waNrwQu8q4=
+			</data>
+		</dict>
+		<key>PlugIns/ReactToDoListTests.xctest.dSYM/Contents/Resources/DWARF/ReactToDoListTests</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			2uho8qp+PKqHavZAkP+GtM0arM0=
+			</data>
+			<key>hash2</key>
+			<data>
+			l2WCoqTDZ1jMmSghX4slzlBC+qc4YnYNGHjixOG2Cu0=
+			</data>
+		</dict>
+		<key>PlugIns/ReactToDoListTests.xctest/Info.plist</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9BW8LWj2d7qRtIvSlgwI7IkVvLs=
+			</data>
+			<key>hash2</key>
+			<data>
+			+iymdme8d1CEq3tEV4VNNtcll0MK/KXSVRvIocHmF5o=
+			</data>
+		</dict>
+		<key>PlugIns/ReactToDoListTests.xctest/ReactToDoListTests</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			9SiF+oxxdqDTOyIoVB2Kg7/VJlI=
+			</data>
+			<key>hash2</key>
+			<data>
+			rsm+RjcMxuYFd8Q+i0wuBMfDVwyfpKa/Imj0sE7wPpA=
+			</data>
+		</dict>
+		<key>PlugIns/ReactToDoListTests.xctest/_CodeSignature/CodeResources</key>
+		<dict>
+			<key>hash</key>
+			<data>
+			7Fh2hG0e/Wy12Iin6XxuMr0jZHg=
+			</data>
+			<key>hash2</key>
+			<data>
+			nIzrUS2+nAZdEujO8wFpo5wEqPKjMM2O0QqpfdItfXM=
 			</data>
 		</dict>
 		<key>README.md</key>
