@@ -1,9 +1,13 @@
-import { REGISTER_URL } from "../../constants/Constants";
-import { LOGIN_URL } from "../../constants/Constants";
+import {
+  REGISTER_URL,
+  LOGIN_URL,
+  ADD_NOTE_URL
+} from "../../constants/Constants";
+import {AsyncStorage} from "react-native";
 
 const headers = {
   Accept: "application/json",
-  "Content-Type": "application/json"
+  "Content-Type": "application/json",
 };
 
 let postMethod = "POST";
@@ -44,7 +48,41 @@ var ApiManager = {
       return { success: true, token: responseJSON.token };
     }
     return { errorMessage: responseJSON.error };
+  },
+
+  newTask: async function(props) {
+    var data = {
+      title: props.title,
+      content: props.content,
+      latitude: props.latitude,
+      longitude: props.longitude,
+      date: props.selectedDate
+     };
+     var token = await AsyncStorage.getItem("token");
+     fetch(ADD_NOTE_URL, {
+      method: postMethod,
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": token
+      },
+      body: JSON.stringify(data)
+    }).then(response => {
+      response.json().then((responseJSON) => {
+        if (response.status === 200) {
+          console.log("success")
+          return { success: true };
+        } else {
+          return { success: false, errorMessage: responseJSON.error};
+        }
+      }).catch((error) => {
+        return { success: false, errorMessage: error};
+      });
+    }).catch((error) => {
+      return { success: false, errorMessage: error};
+    });
   }
+
 };
 
 export default ApiManager;
