@@ -20,7 +20,6 @@ export default class MyList extends Component {
   }
 
   componentDidMount() {
-    console.log("A");
     this.makeRemoteRequest();
   }
   async makeRemoteRequest() {
@@ -49,16 +48,16 @@ export default class MyList extends Component {
               });
               return
             } else {
-              console.log(responseJSON.error);
-              // Alert.alert(responseJSON.error)
+              // console.log(responseJSON.error);
+              Alert.alert(responseJSON.error)
             }
           }).catch((error) => {
-            console.log(error);
-            // Alert.alert(error)
+            // console.log(error);
+            Alert.alert(error)
           });
         }).catch((error) => {
-          console.log(error);
-          // Alert.alert(error)
+          // console.log(error);
+          Alert.alert(error)
         });
       });
   }
@@ -104,13 +103,13 @@ export default class MyList extends Component {
 
   searchBarOnChange = (e) => {
     let text = e.toLowerCase()
-    let items = this.state.initial
+    let items = this.state.initial != null ? this.state.initial : []
     let filteredName = items.filter((item) => {
       return item.title.toLowerCase().match(text)
     })
     if (!text || text === '') {
       this.setState({
-        data: this.state.initial
+        data: this.state.initial != null ? this.state.initial : null
       })
     } else if (!Array.isArray(filteredName) && !filteredName.length) {
       this.setState({
@@ -142,7 +141,7 @@ export default class MyList extends Component {
 
   render() {
     return (
-      <View style={styles.buttonContainer}>
+      <View style={styles.container}>
           <FlatList
             data={this.state.data}
             renderItem={({ item }) => (
@@ -174,15 +173,6 @@ export default class MyList extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    top: 0,
-    bottom: 0,
-    left: 0,
-    right: 0
-  },
-  buttonContainer: {
     flex: 1,
     top: 0,
     bottom: 0,
