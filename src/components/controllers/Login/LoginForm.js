@@ -56,7 +56,6 @@ export default class LoginForm extends React.Component {
   render() {
     return (
       <KeyboardAvoidingView behavior="padding" style={styles.container}>
-        <Loader loading={this.state.loading} />
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
