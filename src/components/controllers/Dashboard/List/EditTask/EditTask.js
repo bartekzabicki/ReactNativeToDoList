@@ -31,6 +31,7 @@ export default class EditTask extends Component {
   };
 
   _changePressed = () => {
+    this.props.refreshCallback()
     this.props.navigation.dispatch(NavigationActions.back())
   }
 

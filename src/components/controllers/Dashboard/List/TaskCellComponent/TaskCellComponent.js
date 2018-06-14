@@ -20,15 +20,15 @@ export default class TaskCellComponent extends Component {
             text: 'Edit',
             backgroundColor: 'blue',
             underlayColor: 'rgba(0, 0, 0, 1, 0.ć6)',
-            onPress: () => { this.props.navigation.navigate("EditTask",{task: this.props.task}) }
+            onPress: () => { this.props.navigation.navigate("EditTask",{task: this.props.task, refreshCallback: this.props.refreshCallback}) }
         }];
 
         return (
             <Swipeout right={swipeBtns}
-                autoClose='true'
+                autoClose={true}
                 backgroundColor='transparent'>
                 <TouchableOpacity onPress={() => {
-                    this.props.navigation.navigate("EditTask",{task: this.props.task})
+                    this.props.navigation.navigate("EditTask",{task: this.props.task, refreshCallback: this.props.refreshCallback})
                 }}>
                     <View style={styles.container}>
                         <Text style={{ fontSize: 17, fontWeight: '500' }}>{this.props.task.title}</Text>

@@ -7,16 +7,21 @@ import TaskCellComponent from "./TaskCellComponent/TaskCellComponent";
 
 export default class MyList extends Component {
 
+  refreshCallback = () => {
+    console.log("Should reload")
+  }
+
   constructor(props) {
     super(props);
 
     this.state = {
       loading: false,
       initial: null,
-      data: [],
+      data: null,
       error: null,
       page: 1,
-      resultsPerPage: 10,
+      pages: 1,
+      resultsPerPage: 2,
       refreshing: false
     };
   }
@@ -25,7 +30,7 @@ export default class MyList extends Component {
     this.makeRemoteRequest();
   }
   async makeRemoteRequest() {
-    const { page, resultsPerPage } = this.state;
+    const { data, page, pages, resultsPerPage } = this.state;
     const url = `http://213.32.87.132:3000/api/notes?page=${page}&results=${resultsPerPage}`;
     this.setState({ loading: true });
     AsyncStorage.getItem("token").then((value) => {
@@ -42,32 +47,48 @@ export default class MyList extends Component {
         }).then(response => {
           response.json().then((responseJSON) => {
             if (response.status === 200) {
-              // console.log(responseJSON.results)
+              // console.log("Set pages:" + responseJSON.pages)
               this.setState({
-                data: responseJSON.results.length > 0 ? responseJSON.results : null,
-                initial: responseJSON.results.length > 0 ? responseJSON.results : null,
+                  pages: responseJSON.pages
+                })
+              var formattedData = responseJSON.results.length > 0 ? responseJSON.results : null
+              if (formattedData != null) {
+                this.setState({
+                  // data: formattedData
+                  data: [...(this.state.data == null ? [] : this.state.data), formattedData],
+                })
+              }
+              this.setState({
+                initial: this.state.data,
                 error: null,
                 loading: false,
                 refreshing: false
               });
-              console.log(responseJSON.results.length);
+            // console.log("Set data to: " + this.state.data)
+              if (formattedData != null) {
+              // console.log("Results:" + formattedData.length)
+              }
+              if (data != null) {
+                // console.log("Data count: "+ data.length)
+              }
               return
             } else {
-              // console.log(responseJSON.error);
-              Alert.alert(responseJSON.error)
+              console.log(responseJSON.error);
+              // Alert.alert(responseJSON.error)
             }
           }).catch((error) => {
-            // console.log(error);
-            Alert.alert(error)
+            console.log(error);
+            // Alert.alert(error)
           });
         }).catch((error) => {
-          // console.log(error);
-          Alert.alert(error)
+          console.log(error);
+          // Alert.alert(error)
         });
       });
   }
 
   handleRefresh = () => {
+    console.log("Refresh")
     this.setState(
       {
         page: 1,
@@ -80,6 +101,11 @@ export default class MyList extends Component {
   };
 
   handleLoadMore = () => {
+    if (this.state.page > this.state.pages) {
+      console.log("Page: "+ this.state.page +", shouldn't load more")
+      return
+    }
+    console.log("LoadMore")
     this.setState(
       {
         page: this.state.page + 1
@@ -158,22 +184,26 @@ export default class MyList extends Component {
                 task={item}
                 containerStyle={{ borderBottomWidth: 0 }}
                 onPress={() => console.log("abc2")}
-                key={item.key}
+                key={`${item.id}`}
+                refreshCallback = {this.refreshCallback}
+                // keyExtractor={(item, index) => index.toString()}
               />
             )}
-            keyExtractor={item => item.email}
+            // keyExtractor={item => `${item.id}`}
             ItemSeparatorComponent={this.renderSeparator}
             ListHeaderComponent={this.renderHeader}
             ListFooterComponent={this.renderFooter}
             onRefresh={this.handleRefresh}
             refreshing={this.state.refreshing}
+            onEndReached={this.handleLoadMore.bind(this)}
             onEndReachedThreshold={50}
             onPress={() => console.log("abc2")}
             style={styles.list}
+            extraData={this.state.refreshing}
           />
         <ActionButton
           buttonColor="rgba(231,76,60,1)"
-          onPress={() => { this.props.navigation.navigate("NewTask") }}
+          onPress={() => { this.props.navigation.navigate("NewTask", {refreshCallback: this.refreshCallback}) }}
         />
       </View>
     );

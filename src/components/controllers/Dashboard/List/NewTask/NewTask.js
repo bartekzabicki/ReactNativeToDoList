@@ -36,6 +36,8 @@ export default class NewTask extends Component {
   async newTaskRequest() {
     ApiManager.newTask(this.state).then((response) => {
       console.log(response)
+      console.log(this.props)
+      this.props.refreshCallback().bind(this)
     })
   }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
