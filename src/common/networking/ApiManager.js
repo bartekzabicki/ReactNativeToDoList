@@ -60,7 +60,7 @@ var ApiManager = {
       date: props.selectedDate
      };
      var token = await AsyncStorage.getItem("token");
-     fetch(ADD_NOTE_URL, {
+     const response = await fetch(ADD_NOTE_URL, {
       method: postMethod,
       headers: {
         Accept: "application/json",
@@ -68,20 +68,14 @@ var ApiManager = {
         "token": token
       },
       body: JSON.stringify(data)
-    }).then(response => {
-      response.json().then((responseJSON) => {
-        if (response.status === 200) {
-          console.log("success")
-          return { success: true };
-        } else {
-          return { success: false, errorMessage: responseJSON.error};
-        }
-      }).catch((error) => {
-        return { success: false, errorMessage: error};
-      });
     }).catch((error) => {
-      return { success: false, errorMessage: error};
+      return { errorMessage: error};
     });
+    if (response.status === 200) {
+      return { success: true };
+    } 
+    const responseJSON = await response.json()
+    return { errorMessage: responseJSON.error }
   },
 
   fetchTasks: async function(props) {
