@@ -11,11 +11,15 @@ import Swipeout from 'react-native-swipeout';
 export default class TaskCellComponent extends Component {
 
     editRowPressed = () => {
-        this.props.editRowPressed()
+        this.props.editRowPressed(this.props.task)
     }
 
     selectRowPressed = () => {
-        this.props.selectRowPressed()
+        this.props.selectRowPressed(this.props.task)
+    }
+
+    deleteRowPressed = () => {
+        this.props.deleteRowPressed(this.props.task)
     }
 
     render() {
@@ -24,7 +28,7 @@ export default class TaskCellComponent extends Component {
             text: 'Delete',
             backgroundColor: 'red',
             underlayColor: 'rgba(0, 0, 1, 0.6)',
-            onPress: () => { }
+            onPress: this.deleteRowPressed
         }, {
             text: 'Edit',
             backgroundColor: 'blue',

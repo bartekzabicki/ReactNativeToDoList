@@ -15,13 +15,20 @@ import ApiManager from "../../../../common/networking/ApiManager";
 
 export default class MyList extends Component {
 
-  editRowPressed = () => {
+  editRowPressed = (task) => {
     console.log("Edit row pressed")
+    console.log(task)
   };
 
-  selectRowPressed = () => {
+  selectRowPressed = (task) => {
     console.log("Select row pressed")
+    console.log(task)
   };
+
+  deleteRowPressed = (task) => {
+    console.log("Delete row pressed")
+    console.log(task)
+  }
 
   constructor(props) {
     super(props);
@@ -169,6 +176,7 @@ export default class MyList extends Component {
               key={`${item.id}`}
               selectRowPressed={this.selectRowPressed.bind(this)}
               editRowPressed={this.editRowPressed.bind(this)}
+              deleteRowPressed={this.deleteRowPressed.bind(this)}
             />
           )}
           // keyExtractor={item => `${item.id}`}
