@@ -1,0 +1,7 @@
+dependencies: \
+  /Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/node_modules/react-native/Libraries/Text/TextInput/RCTInputAccessoryViewContent.m \
+  /Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/node_modules/react-native/Libraries/Text/TextInput/RCTInputAccessoryViewContent.h \
+  /Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/ios/build/Build/Products/Debug-iphonesimulator/include/React/UIView+React.h \
+  /Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/ios/build/Build/Products/Debug-iphonesimulator/include/React/RCTComponent.h \
+  /Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGEnums.h \
+  /Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/ios/build/Build/Products/Debug-iphonesimulator/include/yoga/YGMacros.h

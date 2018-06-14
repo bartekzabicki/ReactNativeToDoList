@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "/Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/android/app/build/intermediates/res/merged/debug/xml/provider_paths.xml",
+        "source": "/Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/android/app/build/intermediates/exploded-aar/ReactToDoList/react-native-image-picker/unspecified/res/xml/provider_paths.xml"
+    },
+    {
+        "merged": "/Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/android/app/build/intermediates/res/merged/debug/xml/preferences.xml",
+        "source": "/Users/kamilzajac/Documents/ProjektyReact/ReactNativeToDoList/android/app/build/intermediates/exploded-aar/com.facebook.react/react-native/0.55.4/res/xml/preferences.xml"
+    }
+]
