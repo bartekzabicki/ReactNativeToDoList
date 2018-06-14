@@ -31,7 +31,7 @@ export default class EditTask extends Component {
   };
 
   _changePressed = () => {
-    this.props.refreshCallback()
+    // this.props.refreshCallback()
     this.props.navigation.dispatch(NavigationActions.back())
   }
 
@@ -44,7 +44,7 @@ export default class EditTask extends Component {
             defaultValue={this.props.navigation.state.params.task.title}
             placeholder="Title"
             returnKeyType="next"
-            secureTextEntry
+            onSubmitEditing={() => this.newDescription.focus()}
           />
           <TextInput
             style={styles.inputMultiline}

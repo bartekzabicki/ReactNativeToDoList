@@ -14,12 +14,12 @@ export default class TaskCellComponent extends Component {
         let swipeBtns = [{
             text: 'Delete',
             backgroundColor: 'red',
-            underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+            underlayColor: 'rgba(0, 0, 1, 0.6)',
             onPress: () => { }
         }, {
             text: 'Edit',
             backgroundColor: 'blue',
-            underlayColor: 'rgba(0, 0, 0, 1, 0.6)',
+            underlayColor: 'rgba(0, 0, 1, 0.6)',
             onPress: () => { this.props.navigation.navigate("EditTask",{task: this.props.task, refreshCallback: this.props.refreshCallback}) }
         }];
 
