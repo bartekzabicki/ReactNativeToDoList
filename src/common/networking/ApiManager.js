@@ -1,7 +1,8 @@
 import {
   REGISTER_URL,
   LOGIN_URL,
-  ADD_NOTE_URL
+  ADD_NOTE_URL,
+  FETCH_NOTES_URL
 } from "../../constants/Constants";
 import {AsyncStorage} from "react-native";
 
@@ -81,6 +82,29 @@ var ApiManager = {
     }).catch((error) => {
       return { success: false, errorMessage: error};
     });
+  },
+
+  fetchTasks: async function(props) {
+    const { page, resultsPerPage } = props;
+    const url = `${FETCH_NOTES_URL}?page=${page}&results=${resultsPerPage}`;
+    console.log(url)
+    let token = await AsyncStorage.getItem("token");
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "token": token
+      }
+    }).catch(error => {
+      return { errorMessage: error };
+    });
+    const responseJSON = await response.json()
+    if (response.status === 200) {
+      return { success: true, response: responseJSON }
+    } else {
+      return { errorMessage: responseJSON.error }
+    }
   }
 
 };

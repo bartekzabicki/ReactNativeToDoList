@@ -1,9 +1,10 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, AsyncStorage, Alert } from "react-native";
-import { List, ListItem, SearchBar } from "react-native-elements";
+import { View, StyleSheet, FlatList, ActivityIndicator, AsyncStorage, Alert } from "react-native";
+import { SearchBar } from "react-native-elements";
 
 import ActionButton from 'react-native-action-button';
 import TaskCellComponent from "./TaskCellComponent/TaskCellComponent";
+import ApiManager from "../../../../common/networking/ApiManager"
 
 export default class MyList extends Component {
 
@@ -28,49 +29,27 @@ export default class MyList extends Component {
   }
 
   componentDidMount() {
-    console.log("Component did mount")
     this.makeRemoteRequest();
-  }
-  
-  componentWillMount(){
-    console.log("Component will mount")
   }
 
   async makeRemoteRequest() {
     if (this.state.loading == false) {
       this.setState({ loading: true });
-      const { page, resultsPerPage } = this.state;
-      console.log("start request with page:")
-      console.log(page)
-      const url = `http://213.32.87.132:3000/api/notes?page=${page}&results=${resultsPerPage}`;
-      let token = await AsyncStorage.getItem("token");
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-          "token": token
-        }
-      }).catch(error => {
-        return { errorMessage: error };
-      });
-      const responseJSON = await response.json()
-      if (response.status === 200) {
+      let apiResult = await ApiManager.fetchTasks(this.state)
+      if (apiResult.success == true) {
+        console.log(apiResult.response)
         this.setState({
-          data: [...this.state.data, ...responseJSON.results],
-          initial: [...this.state.data, ...responseJSON.results],
+          data: [...this.state.data, ...apiResult.response.results],
+          initial: [...this.state.data, ...apiResult.response.results],
           error: null,
           loading: false,
           refreshing: false,
-          pages: responseJSON.pages,
-          page: page + 1
-        }, () => {
-          console.log("End request with page:")
-          console.log(page)
-          console.log(responseJSON.results)
-          return
+          pages: apiResult.response.pages,
+          page: this.state.page + 1
         })
-      } 
+      } else {
+        Alert.alert(apiResult.errorMessage)
+      }
     }
   }
 
