@@ -9,6 +9,15 @@ import {
 import Swipeout from 'react-native-swipeout';
 
 export default class TaskCellComponent extends Component {
+
+    editRowPressed = () => {
+        this.props.editRowPressed()
+    }
+
+    selectRowPressed = () => {
+        this.props.selectRowPressed()
+    }
+
     render() {
 
         let swipeBtns = [{
@@ -20,16 +29,14 @@ export default class TaskCellComponent extends Component {
             text: 'Edit',
             backgroundColor: 'blue',
             underlayColor: 'rgba(0, 0, 1, 0.6)',
-            onPress: () => { this.props.navigation.navigate("EditTask",{task: this.props.task, refreshCallback: this.props.refreshCallback}) }
+            onPress: this.editRowPressed
         }];
 
         return (
             <Swipeout right={swipeBtns}
                 autoClose={true}
                 backgroundColor='transparent'>
-                <TouchableOpacity onPress={() => {
-                    this.props.navigation.navigate("EditTask",{task: this.props.task, refreshCallback: this.props.refreshCallback})
-                }}>
+                <TouchableOpacity onPress={this.selectRowPressed}>
                     <View style={styles.container}>
                         <Text style={{ fontSize: 17, fontWeight: '500' }}>{this.props.task.title}</Text>
                         <Text style={{ fontSize: 12 }}>{this.props.task.date}</Text>

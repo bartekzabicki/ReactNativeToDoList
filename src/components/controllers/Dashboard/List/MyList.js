@@ -1,16 +1,27 @@
 import React, { Component } from "react";
-import { View, StyleSheet, FlatList, ActivityIndicator, AsyncStorage, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  ActivityIndicator,
+  AsyncStorage,
+  Alert
+} from "react-native";
 import { SearchBar } from "react-native-elements";
 
-import ActionButton from 'react-native-action-button';
+import ActionButton from "react-native-action-button";
 import TaskCellComponent from "./TaskCellComponent/TaskCellComponent";
-import ApiManager from "../../../../common/networking/ApiManager"
+import ApiManager from "../../../../common/networking/ApiManager";
 
 export default class MyList extends Component {
 
-  refreshCallback = () => {
-    console.log("Should reload")
-  }
+  editRowPressed = () => {
+    console.log("Edit row pressed")
+  };
+
+  selectRowPressed = () => {
+    console.log("Select row pressed")
+  };
 
   constructor(props) {
     super(props);
@@ -35,9 +46,9 @@ export default class MyList extends Component {
   async makeRemoteRequest() {
     if (this.state.loading == false) {
       this.setState({ loading: true });
-      let apiResult = await ApiManager.fetchTasks(this.state)
+      let apiResult = await ApiManager.fetchTasks(this.state);
       if (apiResult.success == true) {
-        console.log(apiResult.response)
+        console.log(apiResult.response);
         this.setState({
           data: [...this.state.data, ...apiResult.response.results],
           initial: [...this.state.data, ...apiResult.response.results],
@@ -46,9 +57,9 @@ export default class MyList extends Component {
           refreshing: false,
           pages: apiResult.response.pages,
           page: this.state.page + 1
-        })
+        });
       } else {
-        Alert.alert(apiResult.errorMessage)
+        Alert.alert(apiResult.errorMessage);
       }
     }
   }
@@ -67,8 +78,8 @@ export default class MyList extends Component {
           hasAllDataFetched: false
         },
         () => {
-          console.log(this.state)
-          console.log("Refresh")
+          console.log(this.state);
+          console.log("Refresh");
           this.makeRemoteRequest();
         }
       );
@@ -77,11 +88,11 @@ export default class MyList extends Component {
 
   handleLoadMore() {
     if (this.state.page > this.state.pages) {
-      this.setState({ hasAllDataFetched: true })
+      this.setState({ hasAllDataFetched: true });
     } else {
       this.makeRemoteRequest();
     }
-  };
+  }
 
   renderSeparator = () => {
     return (
@@ -89,41 +100,44 @@ export default class MyList extends Component {
         style={{
           height: 1,
           width: "100%",
-          backgroundColor: "#CED0CE",
+          backgroundColor: "#CED0CE"
         }}
       />
     );
   };
 
   renderHeader = () => {
-    return <SearchBar
-      placeholder="Type Here..."
-      lightTheme
-      round
-      onChangeText={this.searchBarOnChange} />;
+    return (
+      <SearchBar
+        placeholder="Type Here..."
+        lightTheme
+        round
+        onChangeText={this.searchBarOnChange}
+      />
+    );
   };
 
-  searchBarOnChange = (e) => {
-    let text = e.toLowerCase()
-    let items = this.state.initial != null ? this.state.initial : []
-    let filteredName = items.filter((item) => {
-      return item.title.toLowerCase().match(text)
-    })
-    if (!text || text === '') {
+  searchBarOnChange = e => {
+    let text = e.toLowerCase();
+    let items = this.state.initial != null ? this.state.initial : [];
+    let filteredName = items.filter(item => {
+      return item.title.toLowerCase().match(text);
+    });
+    if (!text || text === "") {
       this.setState({
         data: this.state.initial != null ? this.state.initial : null
-      })
+      });
     } else if (!Array.isArray(filteredName) && !filteredName.length) {
       this.setState({
         noData: true
-      })
+      });
     } else if (Array.isArray(filteredName)) {
       this.setState({
         noData: false,
         data: filteredName
-      })
+      });
     }
-  }
+  };
 
   renderFooter = () => {
     if (!this.state.loading) return null;
@@ -144,32 +158,38 @@ export default class MyList extends Component {
   render() {
     return (
       <View style={styles.container}>
-          <FlatList
-            data={this.state.data}
-            renderItem={({ item }) => (
-              <TaskCellComponent navigation={this.props.navigation}
-                task={item}
-                containerStyle={{ borderBottomWidth: 0 }}
-                onPress={() => console.log("abc2")}
-                key={`${item.id}`}
-                refreshCallback = {this.refreshCallback}
-              />
-            )}
-            // keyExtractor={item => `${item.id}`}
-            ItemSeparatorComponent={this.renderSeparator}
-            ListHeaderComponent={this.renderHeader}
-            ListFooterComponent={this.renderFooter}
-            onRefresh={this.handleRefresh}
-            refreshing={this.state.refreshing}
-            onEndReached={this.handleLoadMore.bind(this)}
-            onEndReachedThreshold={50}
-            onPress={() => console.log("abc2")}
-            style={styles.list}
-            extraData={this.state.refreshing}
-          />
+        <FlatList
+          data={this.state.data}
+          renderItem={({ item }) => (
+            <TaskCellComponent
+              navigation={this.props.navigation}
+              task={item}
+              containerStyle={{ borderBottomWidth: 0 }}
+              onPress={() => console.log("abc2")}
+              key={`${item.id}`}
+              selectRowPressed={this.selectRowPressed.bind(this)}
+              editRowPressed={this.editRowPressed.bind(this)}
+            />
+          )}
+          // keyExtractor={item => `${item.id}`}
+          ItemSeparatorComponent={this.renderSeparator}
+          ListHeaderComponent={this.renderHeader}
+          ListFooterComponent={this.renderFooter}
+          onRefresh={this.handleRefresh}
+          refreshing={this.state.refreshing}
+          onEndReached={this.handleLoadMore.bind(this)}
+          onEndReachedThreshold={50}
+          onPress={() => console.log("abc2")}
+          style={styles.list}
+          extraData={this.state.refreshing}
+        />
         <ActionButton
           buttonColor="rgba(231,76,60,1)"
-          onPress={() => { this.props.navigation.navigate("NewTask", {refreshCallback: this.refreshCallback}) }}
+          onPress={() => {
+            this.props.navigation.navigate("NewTask", {
+              refreshCallback: this.refreshCallback
+            });
+          }}
         />
       </View>
     );

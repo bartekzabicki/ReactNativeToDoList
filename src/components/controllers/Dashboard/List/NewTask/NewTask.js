@@ -19,7 +19,7 @@ export default class NewTask extends Component {
 
   constructor(props) {
     super(props);
-
+    console.log(props)
     this.state = {
       token: "",
       title: "",

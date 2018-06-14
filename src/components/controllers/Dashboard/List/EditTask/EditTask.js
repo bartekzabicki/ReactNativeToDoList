@@ -14,7 +14,6 @@ export default class EditTask extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       isDateTimePickerVisible: false,
       selectedDate: this.props.navigation.state.params.task.date,
@@ -31,7 +30,7 @@ export default class EditTask extends Component {
   };
 
   _changePressed = () => {
-    // this.props.refreshCallback()
+    this.props.refreshCallback()
     this.props.navigation.dispatch(NavigationActions.back())
   }
 
