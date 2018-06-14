@@ -17,7 +17,7 @@ export default class MyList extends Component {
     this.state = {
       loading: false,
       initial: null,
-      data: null,
+      data: [],
       error: null,
       page: 1,
       pages: 1,
@@ -26,11 +26,14 @@ export default class MyList extends Component {
     };
   }
 
+// `http://213.32.87.132:3000/api/notes?
+
   componentDidMount() {
     this.makeRemoteRequest();
   }
   async makeRemoteRequest() {
-    const { data, page, pages, resultsPerPage } = this.state;
+    const { data, page, resultsPerPage } = this.state;
+    console.log(resultsPerPage)
     const url = `http://213.32.87.132:3000/api/notes?page=${page}&results=${resultsPerPage}`;
     this.setState({ loading: true });
     AsyncStorage.getItem("token").then((value) => {
@@ -54,8 +57,7 @@ export default class MyList extends Component {
               var formattedData = responseJSON.results.length > 0 ? responseJSON.results : null
               if (formattedData != null) {
                 this.setState({
-                  // data: formattedData
-                  data: [...(this.state.data == null ? [] : this.state.data), formattedData],
+                  data: [...this.state.data, ...formattedData]
                 })
               }
               this.setState({
@@ -102,10 +104,8 @@ export default class MyList extends Component {
 
   handleLoadMore = () => {
     if (this.state.page > this.state.pages) {
-      console.log("Page: "+ this.state.page +", shouldn't load more")
       return
     }
-    console.log("LoadMore")
     this.setState(
       {
         page: this.state.page + 1
@@ -186,10 +186,9 @@ export default class MyList extends Component {
                 onPress={() => console.log("abc2")}
                 key={`${item.id}`}
                 refreshCallback = {this.refreshCallback}
-                // keyExtractor={(item, index) => index.toString()}
               />
             )}
-            // keyExtractor={item => `${item.id}`}
+            keyExtractor={item => `${item.id}`}
             ItemSeparatorComponent={this.renderSeparator}
             ListHeaderComponent={this.renderHeader}
             ListFooterComponent={this.renderFooter}
