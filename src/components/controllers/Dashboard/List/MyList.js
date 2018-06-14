@@ -16,104 +16,92 @@ export default class MyList extends Component {
 
     this.state = {
       loading: false,
-      initial: null,
+      initial: [],
       data: [],
       error: null,
       page: 1,
       pages: 1,
-      resultsPerPage: 2,
-      refreshing: false
+      resultsPerPage: 10,
+      refreshing: false,
+      hasAllDataFetched: false
     };
   }
 
-// `http://213.32.87.132:3000/api/notes?
-
   componentDidMount() {
+    console.log("Component did mount")
     this.makeRemoteRequest();
   }
+  
+  componentWillMount(){
+    console.log("Component will mount")
+  }
+
   async makeRemoteRequest() {
-    const { data, page, resultsPerPage } = this.state;
-    console.log(resultsPerPage)
-    const url = `http://213.32.87.132:3000/api/notes?page=${page}&results=${resultsPerPage}`;
-    this.setState({ loading: true });
-    AsyncStorage.getItem("token").then((value) => {
-      this.setState({ "token": value });
-    })
-      .then(res => {
-        fetch(url, {
-          method: "GET",
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            "token": this.state.token
-          }
-        }).then(response => {
-          response.json().then((responseJSON) => {
-            if (response.status === 200) {
-              // console.log("Set pages:" + responseJSON.pages)
-              this.setState({
-                  pages: responseJSON.pages
-                })
-              var formattedData = responseJSON.results.length > 0 ? responseJSON.results : null
-              if (formattedData != null) {
-                this.setState({
-                  data: [...this.state.data, ...formattedData]
-                })
-              }
-              this.setState({
-                initial: this.state.data,
-                error: null,
-                loading: false,
-                refreshing: false
-              });
-            // console.log("Set data to: " + this.state.data)
-              if (formattedData != null) {
-              // console.log("Results:" + formattedData.length)
-              }
-              if (data != null) {
-                // console.log("Data count: "+ data.length)
-              }
-              return
-            } else {
-              console.log(responseJSON.error);
-              // Alert.alert(responseJSON.error)
-            }
-          }).catch((error) => {
-            console.log(error);
-            // Alert.alert(error)
-          });
-        }).catch((error) => {
-          console.log(error);
-          // Alert.alert(error)
-        });
+    if (this.state.loading == false) {
+      this.setState({ loading: true });
+      const { page, resultsPerPage } = this.state;
+      console.log("start request with page:")
+      console.log(page)
+      const url = `http://213.32.87.132:3000/api/notes?page=${page}&results=${resultsPerPage}`;
+      let token = await AsyncStorage.getItem("token");
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+          "token": token
+        }
+      }).catch(error => {
+        return { errorMessage: error };
       });
+      const responseJSON = await response.json()
+      if (response.status === 200) {
+        this.setState({
+          data: [...this.state.data, ...responseJSON.results],
+          initial: [...this.state.data, ...responseJSON.results],
+          error: null,
+          loading: false,
+          refreshing: false,
+          pages: responseJSON.pages,
+          page: page + 1
+        }, () => {
+          console.log("End request with page:")
+          console.log(page)
+          console.log(responseJSON.results)
+          return
+        })
+      } 
+    }
   }
 
   handleRefresh = () => {
-    console.log("Refresh")
-    this.setState(
-      {
-        page: 1,
-        refreshing: true
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
+    if (this.state.hasAllDataFetched == true) {
+      this.setState(
+        {
+          loading: false,
+          initial: [],
+          data: [],
+          error: null,
+          page: 1,
+          resultsPerPage: 10,
+          refreshing: true,
+          hasAllDataFetched: false
+        },
+        () => {
+          console.log(this.state)
+          console.log("Refresh")
+          this.makeRemoteRequest();
+        }
+      );
+    }
   };
 
-  handleLoadMore = () => {
+  handleLoadMore() {
     if (this.state.page > this.state.pages) {
-      return
+      this.setState({ hasAllDataFetched: true })
+    } else {
+      this.makeRemoteRequest();
     }
-    this.setState(
-      {
-        page: this.state.page + 1
-      },
-      () => {
-        this.makeRemoteRequest();
-      }
-    );
   };
 
   renderSeparator = () => {
@@ -188,7 +176,7 @@ export default class MyList extends Component {
                 refreshCallback = {this.refreshCallback}
               />
             )}
-            keyExtractor={item => `${item.id}`}
+            // keyExtractor={item => `${item.id}`}
             ItemSeparatorComponent={this.renderSeparator}
             ListHeaderComponent={this.renderHeader}
             ListFooterComponent={this.renderFooter}
