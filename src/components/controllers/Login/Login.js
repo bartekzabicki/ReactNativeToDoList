@@ -4,6 +4,11 @@ import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import LoginForm from "./LoginForm";
 
 export default class Login extends React.Component {
+
+  static navigationOptions = {
+    header: null
+ }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>

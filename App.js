@@ -8,49 +8,36 @@ import {
   Text,
   TextInput,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  AsyncStorage
 } from "react-native";
 
-import { createStackNavigator } from 'react-navigation';
-
-import Splash from './Splash';
-import Login from './src/components/controllers/Login/Login';
-import Register from './src/components/controllers/Registration/Register';
-import DashboardTabNavigator from './src/components/controllers/Dashboard/DashboardTabNavigator';
+import { createRootNavigator } from "./router";
+import { isSignedIn } from "./auth";
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props);
 
-  render() {
-    return <AppStackNavigator />;
+    this.state = {
+      signedIn: false,
+      checkedSignIn: false
+    };
   }
 
-}
+  componentDidMount() {
+    isSignedIn()
+      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
+      .catch(err => alert("An error occurred"));
+  }
 
-const AppStackNavigator = new createStackNavigator({
-  Splash: {
-    screen: Splash,
-    navigationOptions: {
-      header: null,
+  render() {
+    const { checkedSignIn, signedIn } = this.state;
+    
+    if (!checkedSignIn) {
+      return null;
     }
-  },
-  Login: {
-    screen: Login,
-    navigationOptions: {
-      header: null,
-      gesturesEnabled: false
-    }
-  },
-  Register: {
-    screen: Register,
-    navigationOptions: {
-      title: "Registration"
-    }
-  },
-  TabNavigator: {
-    screen: DashboardTabNavigator,
-    navigationOptions: {
-      header: null,
-      gesturesEnabled: false
-    }
-  },
-})
+    const Layout = createRootNavigator(signedIn);
+    return <Layout />;
+  }
+}
