@@ -36,8 +36,8 @@ export default class NewTask extends Component {
   async newTaskRequest() {
     let apiResult = await ApiManager.newTask(this.state)
     if (apiResult.success === true) {
-      console.log("Success")
-      // this.props.refreshCallback().bind(this)
+      this.props.navigation.state.params.addNewtask()
+      this.props.navigation.dispatch(NavigationActions.back())
     } else {
       Alert.alert(apiResult.errorMessage)
     }

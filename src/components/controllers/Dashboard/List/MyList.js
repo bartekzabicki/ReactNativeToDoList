@@ -14,7 +14,7 @@ import ApiManager from "../../../../common/networking/ApiManager";
 
 export default class MyList extends Component {
   editRowPressed = task => {
-    this.setState ({ editedTask: task })
+    this.setState({ editedTask: task });
     this.props.navigation.navigate("EditTask", {
       task: task,
       taskWasEditing: this.taskWasEditing.bind(this)
@@ -26,17 +26,21 @@ export default class MyList extends Component {
   };
 
   deleteRowPressed = task => {
-    var tasks = this.state.data
+    var tasks = this.state.data;
     var index = tasks.indexOf(task);
     tasks.splice(index, 1);
-    this.setState({ data: tasks })
+    this.setState({ data: tasks });
   };
 
   taskWasEditing = task => {
-    var tasks = this.state.data
+    var tasks = this.state.data;
     var index = tasks.indexOf(this.state.editedTask);
-    tasks[index] = task
-    this.setState({ data: tasks })
+    tasks[index] = task;
+    this.setState({ data: tasks });
+  };
+
+  addNewtask = () => {
+    console.log("Add new task")
   };
 
   constructor(props) {
@@ -202,7 +206,7 @@ export default class MyList extends Component {
           buttonColor="rgba(231,76,60,1)"
           onPress={() => {
             this.props.navigation.navigate("NewTask", {
-              refreshCallback: this.refreshCallback
+              addNewtask: this.addNewtask.bind(this)
             });
           }}
         />
