@@ -5,21 +5,20 @@ import {
   StyleSheet,
   TextInput,
   Alert,
-  TouchableOpacity, 
-  AsyncStorage
+  TouchableOpacity,
+  KeyboardAvoidingView
 } from "react-native";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
-import { NavigationActions } from 'react-navigation';
+import { NavigationActions } from "react-navigation";
 import RoundedButton from "../../../../../common/components/RoundedButton";
 import Validator from "../../../../../common/validators/TextInputValidator";
 import ApiManager from "../../../../../common/networking/ApiManager";
 
 export default class NewTask extends Component {
-
   constructor(props) {
     super(props);
-    console.log(props)
+    console.log(props);
     this.state = {
       token: "",
       title: "",
@@ -28,18 +27,19 @@ export default class NewTask extends Component {
       longitude: 22.33,
       isDateTimePickerVisible: false,
       isDatePicked: false,
-      selectedDate: "Select date",
+      selectedDate: "Add date for your note",
+      isNameValidated: true
     };
-    this.newTaskRequest = this.newTaskRequest.bind(this)
+    this.newTaskRequest = this.newTaskRequest.bind(this);
   }
 
   async newTaskRequest() {
-    let apiResult = await ApiManager.newTask(this.state)
+    let apiResult = await ApiManager.newTask(this.state);
     if (apiResult.success === true) {
-      this.props.navigation.state.params.addNewtask()
-      this.props.navigation.dispatch(NavigationActions.back())
+      this.props.navigation.state.params.addNewtask();
+      this.props.navigation.dispatch(NavigationActions.back());
     } else {
-      Alert.alert(apiResult.errorMessage)
+      Alert.alert(apiResult.errorMessage);
     }
   }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -53,42 +53,59 @@ export default class NewTask extends Component {
   };
 
   _addPressed = () => {
-    let result = Validator.newTaskValidation(this.state)
+    let result = Validator.newTaskValidation(this.state);
     if (result.isValidated == true) {
-      this.newTaskRequest()
+      this.newTaskRequest();
     } else {
-      Alert.alert(result.errorMessage)
+      this.setState({ isNameValidated: false });
+      Alert.alert(result.errorMessage);
     }
-  }
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Name"
-            returnKeyType="next"
-            onChangeText={value => this.setState({ title: value })}
-          />
-          <TextInput
-            style={styles.inputMultiline}
-            placeholder="Description"
-            returnKeyType="next"
-            onChangeText={value => this.setState({ content: value })}
-            multiline={true}
-          />
-          <TouchableOpacity onPress={this._showDateTimePicker}>
-            <Text style={styles.datePickerText} >{this.state.selectedDate}</Text>
-          </TouchableOpacity>
+        <View style={styles.grayContainer}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Create a New Note</Text>
+          </View>
+          <View style={styles.inputsContainer}>
+            <KeyboardAvoidingView behavior="padding" enabled>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter Note Name..."
+                placeholderTextColor={this.state.isNameValidated ? null : "red"}
+                returnKeyType="next"
+                autoCorrect={false}
+                onChangeText={value => this.setState({ title: value })}
+                onSubmitEditing={() => this.contentInput.focus()}
+              />
+              <TextInput
+                style={styles.inputMultiline}
+                placeholder="Write your note..."
+                returnKeyType="done"
+                onChangeText={value => this.setState({ content: value })}
+                autoCorrect={false}
+                multiline={true}
+                ref={input => (this.contentInput = input)}
+              />
+            </KeyboardAvoidingView>
+          </View>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity onPress={this._showDateTimePicker}>
+              <Text style={styles.headerText}>{this.state.selectedDate}</Text>
+            </TouchableOpacity>
+          </View>
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
             maximumDate={new Date()}
           />
+          <View style={styles.addNoteView}>
+            <RoundedButton title="Save note" onPress={this._addPressed} />
+          </View>
         </View>
-        <RoundedButton title="Add note" onPress={this._addPressed} />
       </View>
     );
   }
@@ -97,41 +114,48 @@ export default class NewTask extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "white"
   },
-  inputContainer: {
-    width: "100%",
-    marginTop: 24,
-    marginBottom: 24
+  grayContainer: {
+    backgroundColor: "#D9D7D8",
+    margin: 16,
+    alignSelf: "stretch"
+  },
+  headerContainer: {
+    marginTop: 16,
+    marginLeft: 8,
+    marginBottom: 16
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  inputsContainer: {
+    marginLeft: 8,
+    marginRight: 8
   },
   input: {
     height: 40,
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 16,
     paddingHorizontal: 10,
     color: "black",
-    borderColor: "#34495e",
-    borderWidth: 0.5,
-    borderRadius: 10
+    backgroundColor: "white"
   },
   inputMultiline: {
-    minHeight: 40,
+    minHeight: 150,
     maxHeight: 200,
-    marginLeft: 24,
-    marginRight: 24,
     marginTop: 16,
-    paddingHorizontal: 10,
     color: "black",
-    borderColor: "#34495e",
-    borderWidth: 0.5,
-    borderRadius: 10
+    backgroundColor: "white",
+    padding: 8
   },
   datePickerText: {
     textAlign: "center",
     marginTop: 24,
     fontSize: 15
+  },
+  addNoteView: {
+    alignItems: "center",
+    marginBottom: 16
   }
 });
-
-

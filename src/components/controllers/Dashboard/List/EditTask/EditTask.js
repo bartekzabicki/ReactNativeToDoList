@@ -9,6 +9,7 @@ import {
 import DateTimePicker from "react-native-modal-datetime-picker";
 import moment from "moment";
 import { NavigationActions } from 'react-navigation'
+import RoundedButton from "../../../../../common/components/RoundedButton";
 
 export default class EditTask extends Component {
 
@@ -47,41 +48,43 @@ export default class EditTask extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            defaultValue={this.state.title}
-            placeholder="Title"
-            returnKeyType="next"
-            onSubmitEditing={() => this.newDescription.focus()}
-            onChangeText={value => this.setState({ title: value })}
-          />
-          <TextInput
-            style={styles.inputMultiline}
-            defaultValue={this.state.content}
-            placeholder="Description"
-            returnKeyType="next"
-            ref={input => (this.newDescription = input)}
-            multiline={true}
-            onChangeText={value => this.setState({ content: value })}
-          />
-          <TouchableOpacity onPress={this._showDateTimePicker}>
-            <Text style={styles.datePickerText} >{this.state.date}</Text>
-          </TouchableOpacity>
+        <View style={styles.grayContainer}>
+          <View style={styles.headerContainer}>
+            <Text style={styles.headerText}>Edit your note</Text>
+          </View>
+          <View style={styles.inputsContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Enter Note Name..."
+              returnKeyType="next"
+              autoCorrect={false}
+              onChangeText={value => this.setState({ title: value })}
+              defaultValue={this.state.title}
+            />
+            <TextInput
+              style={styles.inputMultiline}
+              placeholder="Write your note..."
+              returnKeyType="done"
+              onChangeText={value => this.setState({ content: value })}
+              autoCorrect={false}
+              multiline={true}
+              defaultValue={this.state.content}
+            />
+          </View>
+          <View style={styles.headerContainer}>
+            <TouchableOpacity onPress={this._showDateTimePicker}>
+              <Text style={styles.headerText}>{moment(this.state.date).format("YYYY-MM-DD hh:mm")}</Text>
+            </TouchableOpacity>
+          </View>
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
             onConfirm={this._handleDatePicked}
             onCancel={this._hideDateTimePicker}
             maximumDate={new Date()}
           />
-        </View>
-        <View>
-          <TouchableOpacity
-            style={styles.customButton}
-            onPress={this._changePressed}
-          >
-            <Text style={styles.customButtonText}>Change</Text>
-          </TouchableOpacity>
+          <View style={styles.addNoteView}>
+            <RoundedButton title="Save changes" onPress={this._changePressed} />
+          </View>
         </View>
       </View>
     );
@@ -91,56 +94,49 @@ export default class EditTask extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "white"
   },
-  inputContainer: {
-    width: "100%",
-    marginTop: 24,
-    marginBottom: 24
+  grayContainer: {
+    backgroundColor: "#D9D7D8",
+    margin: 16,
+    alignSelf: "stretch"
+  },
+  headerContainer: {
+    marginTop: 16,
+    marginLeft: 8,
+    marginBottom: 16
+  },
+  headerText: {
+    fontSize: 20,
+    fontWeight: "500"
+  },
+  inputsContainer: {
+    marginLeft: 8,
+    marginRight: 8
   },
   input: {
     height: 40,
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 16,
     paddingHorizontal: 10,
     color: "black",
-    borderColor: "#34495e",
-    borderWidth: 0.5,
-    borderRadius: 10
+    backgroundColor: "white"
   },
   inputMultiline: {
-    minHeight: 40,
+    minHeight: 150,
     maxHeight: 200,
-    marginLeft: 24,
-    marginRight: 24,
     marginTop: 16,
-    paddingHorizontal: 10,
     color: "black",
-    borderColor: "#34495e",
-    borderWidth: 0.5,
-    borderRadius: 10
-  },
-  customButton: {
-    height: 40,
-    backgroundColor: "#34495e",
-    marginLeft: 24,
-    marginRight: 24,
-    marginTop: 16,
-    justifyContent: "center",
-    borderRadius: 10,
-    width: 200
-  },
-  customButtonText: {
-    textAlign: "center",
-    fontSize: 15,
-    fontWeight: "700",
-    color: "white"
+    backgroundColor: "white",
+    padding: 8
   },
   datePickerText: {
     textAlign: "center",
     marginTop: 24,
     fontSize: 15
+  },
+  addNoteView: {
+    alignItems: "center",
+    marginBottom: 16
   }
 });
 
