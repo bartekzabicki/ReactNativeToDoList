@@ -6,6 +6,10 @@ import {
     } from "react-native";
 
 class TaskDetails extends Component{
+
+    static navigationOptions: {
+    }
+    
     render(){
         return (
             <View style={styles.container}>

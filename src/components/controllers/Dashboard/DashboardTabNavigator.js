@@ -36,9 +36,9 @@ const ListStack = new createStackNavigator({
   },
   TaskDetails: {
     screen: TaskDetails,
-    navigationOptions: {
-      title: "Task details"
-    }
+    navigationOptions: ({navigation}) => ({
+      title: `${navigation.state.params.task.title}`,
+    })
   }
 });
 
