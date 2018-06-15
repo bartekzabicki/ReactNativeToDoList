@@ -14,6 +14,9 @@ import { NavigationActions } from 'react-navigation';
 import RoundedButton from "../../../../../common/components/RoundedButton";
 import Validator from "../../../../../common/validators/TextInputValidator";
 import ApiManager from "../../../../../common/networking/ApiManager";
+// import Mapbox from '@mapbox/react-native-mapbox-gl';
+
+// Mapbox.setAccessToken('pk.eyJ1IjoiYmFydGVremFiaWNraSIsImEiOiJjamlma2xsbjQwaTlxM3BxcHRmcnF6amE4In0.4K7PAxiBD34HOss9cwjGRQ');
 
 export default class NewTask extends Component {
 
@@ -87,6 +90,12 @@ export default class NewTask extends Component {
             onCancel={this._hideDateTimePicker}
             maximumDate={new Date()}
           />
+          {/* <Mapbox.MapView
+            styleURL={Mapbox.StyleURL.Street}
+            zoomLevel={15}
+            centerCoordinate={[11.256, 43.770]}
+            style={styles.container}>
+        </Mapbox.MapView> */}
         </View>
         <RoundedButton title="Add note" onPress={this._addPressed} />
       </View>
