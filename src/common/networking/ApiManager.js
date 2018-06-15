@@ -81,7 +81,6 @@ var ApiManager = {
   fetchTasks: async function(props) {
     const { page, resultsPerPage } = props;
     const url = `${FETCH_NOTES_URL}?page=${page}&results=${resultsPerPage}`;
-    console.log(url)
     let token = await AsyncStorage.getItem("token");
     const response = await fetch(url, {
       method: "GET",

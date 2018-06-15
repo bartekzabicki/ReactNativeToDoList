@@ -16,7 +16,11 @@ export default class EditTask extends Component {
     super(props);
     this.state = {
       isDateTimePickerVisible: false,
-      selectedDate: this.props.navigation.state.params.task.date,
+      title: this.props.navigation.state.params.task.title,
+      content: this.props.navigation.state.params.task.content,
+      date: this.props.navigation.state.params.task.date,
+      latitude: this.props.navigation.state.params.task.latitude,
+      longitude: this.props.navigation.state.params.task.longitude,
     }
   }
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
@@ -25,12 +29,19 @@ export default class EditTask extends Component {
 
   _handleDatePicked = date => {
     this.setState({ isDatePicked: true });
-    this.setState({ selectedDate: moment(date).format("YYYY-MM-DD hh:mm") });
+    this.setState({ date: moment(date).format("YYYY-MM-DD hh:mm") });
     this._hideDateTimePicker();
   };
 
   _changePressed = () => {
-    this.props.refreshCallback()
+    var task = {
+      title: this.state.title,
+      content: this.state.content,
+      latitude: this.state.latitude,
+      longitude: this.state.longitude,
+      date: this.state.date
+     };
+    this.props.navigation.state.params.taskWasEditing(task)
     this.props.navigation.dispatch(NavigationActions.back())
   }
 
@@ -40,21 +51,23 @@ export default class EditTask extends Component {
         <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
-            defaultValue={this.props.navigation.state.params.task.title}
+            defaultValue={this.state.title}
             placeholder="Title"
             returnKeyType="next"
             onSubmitEditing={() => this.newDescription.focus()}
+            onChangeText={value => this.setState({ title: value })}
           />
           <TextInput
             style={styles.inputMultiline}
-            defaultValue={this.props.navigation.state.params.task.content}
+            defaultValue={this.state.content}
             placeholder="Description"
             returnKeyType="next"
             ref={input => (this.newDescription = input)}
             multiline={true}
+            onChangeText={value => this.setState({ content: value })}
           />
           <TouchableOpacity onPress={this._showDateTimePicker}>
-            <Text style={styles.datePickerText} >{this.state.selectedDate}</Text>
+            <Text style={styles.datePickerText} >{this.state.date}</Text>
           </TouchableOpacity>
           <DateTimePicker
             isVisible={this.state.isDateTimePickerVisible}
