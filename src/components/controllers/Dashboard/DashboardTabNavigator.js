@@ -13,24 +13,31 @@ import ChangeEmail from "./Settings/ChangeEmail";
 import NewTask from "./List/NewTask/NewTask";
 import EditTask from "./List/EditTask/EditTask";
 import MyCalendar from "./Calendar/MyCalendar";
+import TaskDetails from "./List/TaskDetails/TaskDetails";
 
 const ListStack = new createStackNavigator({
   List: {
     screen: MyList,
     navigationOptions: {
-      title: "MyList"
+      title: "My list"
     }
   },
   NewTask: {
     screen: NewTask,
     navigationOptions: {
-      title: "NewTask"
+      title: "New task"
     }
   },
   EditTask: {
     screen: EditTask,
     navigationOptions: {
-      title: "EditTask"
+      title: "Edit task"
+    }
+  },
+  TaskDetails: {
+    screen: TaskDetails,
+    navigationOptions: {
+      title: "Task details"
     }
   }
 });
@@ -54,7 +61,7 @@ const SettingsStack = new createStackNavigator({
   MyProfile: {
     screen: MyProfile,
     navigationOptions: {
-      title: "MyProfile"
+      title: "My profile"
     }
   },
   ChangePassword: {

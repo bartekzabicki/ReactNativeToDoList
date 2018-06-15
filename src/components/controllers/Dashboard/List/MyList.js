@@ -4,7 +4,6 @@ import {
   StyleSheet,
   FlatList,
   ActivityIndicator,
-  AsyncStorage,
   Alert
 } from "react-native";
 import { SearchBar } from "react-native-elements";
@@ -16,11 +15,13 @@ import ApiManager from "../../../../common/networking/ApiManager";
 export default class MyList extends Component {
 
   editRowPressed = (task) => {
+    this.props.navigation.navigate("EditTask", {task: task, taskWasEditing: this.taskWasEditing.bind(this)})
     console.log("Edit row pressed")
     console.log(task)
   };
 
   selectRowPressed = (task) => {
+    this.props.navigation.navigate("TaskDetails", {task: task})
     console.log("Select row pressed")
     console.log(task)
   };
@@ -28,6 +29,28 @@ export default class MyList extends Component {
   deleteRowPressed = (task) => {
     console.log("Delete row pressed")
     console.log(task)
+  }
+
+  taskWasEditing = (task) => {
+    console.log("Task was editing")
+    console.log(task)
+    if (this.state.hasAllDataFetched == true) {
+      this.setState(
+        {
+          loading: false,
+          initial: [],
+          data: [],
+          error: null,
+          page: 1,
+          resultsPerPage: 10,
+          refreshing: true,
+          hasAllDataFetched: false
+        },
+        () => {
+          this.makeRemoteRequest();
+        }
+      );
+    }
   }
 
   constructor(props) {
@@ -55,7 +78,6 @@ export default class MyList extends Component {
       this.setState({ loading: true });
       let apiResult = await ApiManager.fetchTasks(this.state);
       if (apiResult.success == true) {
-        console.log(apiResult.response);
         this.setState({
           data: [...this.state.data, ...apiResult.response.results],
           initial: [...this.state.data, ...apiResult.response.results],
@@ -85,8 +107,6 @@ export default class MyList extends Component {
           hasAllDataFetched: false
         },
         () => {
-          console.log(this.state);
-          console.log("Refresh");
           this.makeRemoteRequest();
         }
       );
