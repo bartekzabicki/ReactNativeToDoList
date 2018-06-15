@@ -34,13 +34,12 @@ export default class EditTask extends Component {
   };
 
   _changePressed = () => {
-    var task = {
-      title: this.state.title,
-      content: this.state.content,
-      latitude: this.state.latitude,
-      longitude: this.state.longitude,
-      date: this.state.date
-     };
+    var task = this.props.navigation.state.params.task
+    task.title = this.state.title
+    task.content = this.state.content
+    task.date = this.state.date
+    task.latitude = this.state.latitude
+    task.longitude = this.state.longitude
     this.props.navigation.state.params.taskWasEditing(task)
     this.props.navigation.dispatch(NavigationActions.back())
   }
