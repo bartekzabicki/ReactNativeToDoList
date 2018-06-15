@@ -14,6 +14,7 @@ import Loader from "../../../Loader/Loader";
 import RoundedButton from "../../../common/components/RoundedButton"
 import Validator from "../../../common/validators/TextInputValidator"
 import ApiManager from "../../../common/networking/ApiManager";
+import {onSignIn} from "../../../../auth"
 
 export default class LoginForm extends React.Component {
   constructor(props) {
@@ -46,8 +47,7 @@ export default class LoginForm extends React.Component {
     let apiResult = await ApiManager.login(this.state);
     if (apiResult.success == true) {
       this.setState({ loading: false });
-      AsyncStorage.setItem("token", apiResult.token);
-      this.props.navigation.navigate("TabNavigator");
+      onSignIn(apiResult.token).then(() => this.props.navigation.navigate("TabNavigator"))
     } else {
       this._hideSpinnerWithText(apiResult.errorMessage)
     }

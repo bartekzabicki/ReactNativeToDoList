@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 
 import LoginForm from "./LoginForm";
+import {onSignIn} from "../../../../auth"
 
 export default class Login extends React.Component {
 

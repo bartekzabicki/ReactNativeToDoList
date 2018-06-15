@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { View, Text, StyleSheet, TouchableOpacity, AsyncStorage } from "react-native";
+import {onSignOut} from "../../../../../auth"
 
 class Settings extends Component {
 
-  async _logoutUser() {
-    await AsyncStorage.removeItem("token")
-    this.props.navigation.navigate("Login")
+   _logoutUser() {
+    onSignOut().then(() => this.props.navigation.navigate("Login"))
   }
 
   render() {
